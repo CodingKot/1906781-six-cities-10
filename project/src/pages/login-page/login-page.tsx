@@ -1,9 +1,10 @@
-import LoginPageHeader from '../../components/login-page-header/login-page-header';
+import Header from '../../components/header/header';
+import {Link} from 'react-router-dom';
 
 function LoginPage(): JSX.Element {
   return (
     <div className="page page--gray page--login">
-      <LoginPageHeader/>
+      <Header/>
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">
@@ -22,9 +23,9 @@ function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="/">
+              <Link className="locations__item-link" to="/">
                 <span>Amsterdam</span>
-              </a>
+              </Link>
             </div>
           </section>
         </div>

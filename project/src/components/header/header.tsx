@@ -1,12 +1,16 @@
 import Logo from '../logo/logo';
-import HeaderNav from '../header-nav/header-nav';
-function Header(): JSX.Element {
+
+type HeaderProps = {
+  children?: JSX.Element
+}
+
+function Header({children}: HeaderProps): JSX.Element {
   return (
     <header className="header">
       <div className="container">
         <div className="header__wrapper">
           <Logo/>
-          <HeaderNav/>
+          {children}
         </div>
       </div>
     </header>
