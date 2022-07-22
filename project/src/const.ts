@@ -2,7 +2,7 @@ export enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
-  Room = '/offer/',
+  Room = '/offer/:id',
 }
 
 export enum AuthorizationStatus {
@@ -10,6 +10,13 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export enum CardClass {
+  Favorites = 'favorites',
+  Cities = 'cities',
+}
+
+export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 export const RATING_MARKS = [
   {

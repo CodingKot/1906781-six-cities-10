@@ -13,12 +13,12 @@ type PropertyPageProps = {
 function PropertyPage(props: PropertyPageProps): JSX.Element {
   const {offers} = props;
   const params = useParams();
-  const index = offers.findIndex((item) => `:${item.id}` === params.id);
-  if(index === -1) {
+  const offer = offers.find((item) => item.id === Number(params.id));
+  if(offer === undefined) {
     return <NotFoundPage/>;
   }
 
-  const {title, isPremium, type, rating, price, goods, host, images, bedrooms, maxAdults, description} = offers[index];
+  const {title, isPremium, type, rating, price, goods, host, images, bedrooms, maxAdults, description} = offer;
 
   return (
     <div className="page">
@@ -38,10 +38,10 @@ function PropertyPage(props: PropertyPageProps): JSX.Element {
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              {isPremium ?
+              {isPremium && (
                 <div className="place-card__mark">
                   <span>Premium</span>
-                </div> : <div className="place-card__mark visually-hidden"></div>}
+                </div>)}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
                   {title}
@@ -98,10 +98,7 @@ function PropertyPage(props: PropertyPageProps): JSX.Element {
                   <span className="property__user-name">
                     {host.name}
                   </span>
-                  {host.isPro ?
-                    <span className="property__user-status">
-                  Pro
-                    </span> : <span className="property__user-status visually-hidden"></span>}
+                  {host.isPro && (<span className="property__user-status">Pro</span>)}
                 </div>
                 <div className="property__description">
                   <p className="property__text">

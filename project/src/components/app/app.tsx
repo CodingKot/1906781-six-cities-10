@@ -37,9 +37,8 @@ function App({offersCount, offers}: AppScreenProps): JSX.Element {
         />
         <Route
           path={AppRoute.Room}
-        >
-          <Route path=':id' element={<PropertyPage offers={offers}/>}/>
-        </Route>
+          element={<PropertyPage offers={offers}/>}
+        />
         <Route
           path="*"
           element={<NotFoundPage/>}

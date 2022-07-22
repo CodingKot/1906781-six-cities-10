@@ -1,4 +1,4 @@
-import {useState, ChangeEvent} from 'react';
+import React, {useState, ChangeEvent} from 'react';
 import { RATING_MARKS } from '../../const';
 
 function CommentsForm(): JSX.Element {
@@ -22,14 +22,14 @@ function CommentsForm(): JSX.Element {
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {RATING_MARKS.map((rating) => (
-          <div key={`${rating.mark}-stars`}>
+          <React.Fragment key={`${rating.mark}-stars`}>
             <input className="form__rating-input visually-hidden" name="rating" value={rating.mark} id={`${rating.mark}-stars`} type="radio" onChange={ratingChangeHandle}/>
             <label htmlFor={`${rating.mark}-stars`} className="reviews__rating-label form__rating-label" title={rating.emotion}>
               <svg className="form__star-image" width="37" height="33">
                 <use xlinkHref="#icon-star"></use>
               </svg>
             </label>
-          </div>
+          </React.Fragment>
         )
         )}
       </div>

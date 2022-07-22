@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import {Offers} from '../../types/offer';
 import Card from '../card/card';
+import {CardClass} from '../../const';
 
 type OffersListProps = {
   offers: Offers;
 }
 
 function OffersList({offers}: OffersListProps): JSX.Element {
-  const results = useState<number>();
-  const setActiveCard = results[1];
+  const [activeCard, setActiveCard] = useState(false);
 
   return (
     <div className="cities__places-list places__list tabs__content">
@@ -16,8 +16,9 @@ function OffersList({offers}: OffersListProps): JSX.Element {
         (
           <Card key={offer.id}
             offer={offer}
+            cardClass = {CardClass.Cities}
             onMouseOver={()=>{
-              setActiveCard(offer.id);
+              setActiveCard(!activeCard);
             }}
           />)
       )}
