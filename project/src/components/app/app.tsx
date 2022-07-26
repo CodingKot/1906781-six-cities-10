@@ -6,20 +6,22 @@ import LoginPage from '../../pages/login-page/login-page';
 import PropertyPage from '../../pages/property-page/property-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
-import {Offers} from '../../types/offer';
+import {Offers, Cities} from '../../types/offer';
+
 
 type AppScreenProps = {
   offersCount: number;
   offers: Offers;
+  cities: Cities;
 }
 
-function App({offersCount, offers}: AppScreenProps): JSX.Element {
+function App({offersCount, offers, cities}: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainPage offersCount={offersCount} offers={offers}/>}
+          element={<MainPage offersCount={offersCount} offers={offers} offerCities={cities} />}
         />
         <Route
           path={AppRoute.Favorites}

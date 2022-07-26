@@ -1,30 +1,37 @@
 import {Offer} from '../../types/offer';
 import {generatePath, Link} from 'react-router-dom';
-import {AppRoute, CardClass} from '../../const';
+import {AppRoute} from '../../const';
+import {getRatingPercent} from '../../utils/utils';
+import {MouseEvent} from 'react';
+
 
 type CardProps = {
   offer: Offer;
-  onMouseOver: ()=> void;
-  cardClass: string;
+  onOfferHover?: (evt: MouseEvent<HTMLDivElement>) => void;
+  cardClassName: string;
+  classNameWrapper: string;
+  classNameInfo: string;
+  imgWidth: string;
+  imgHeight: string;
 }
 
 function Card(props: CardProps): JSX.Element {
-  const {offer, onMouseOver, cardClass} = props;
+  const {offer, onOfferHover, cardClassName, classNameWrapper, classNameInfo, imgWidth, imgHeight} = props;
   const{id, title, isPremium, type, rating, price, previewImage, isFavorite} = offer;
   const offerLink = generatePath(AppRoute.Room, {id: `${id}`});
-  const getRatingPercent = (value: number) => Math.round(value) * 20;
+
   return (
-    <article className={`${cardClass}__card place-card`} onMouseOver={onMouseOver}>
+    <article className={`${cardClassName} place-card`} onMouseEnter={onOfferHover} id = {`${id}`}>
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
         </div>)}
-      <div className={`${cardClass}__image-wrapper place-card__image-wrapper`}>
+      <div className={`${classNameWrapper} place-card__image-wrapper`}>
         <Link to={offerLink}>
-          <img className="place-card__image" src={previewImage} width={`${cardClass === CardClass.Cities ? '260' : '150'}`} height={`${cardClass === CardClass.Cities ? '200' : '110'}`} alt="Place"/>
+          <img className="place-card__image" src={previewImage} width={imgWidth} height={imgHeight} alt="Place"/>
         </Link>
       </div>
-      <div className={`${cardClass === CardClass.Favorites && 'favorites__card-info'} place-card__info`}>
+      <div className={`${classNameInfo} place-card__info`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
@@ -40,7 +47,7 @@ function Card(props: CardProps): JSX.Element {
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
             <span style={{
-              width: `${getRatingPercent(rating)}%`,
+              width: getRatingPercent(rating),
             }}
             >
             </span>

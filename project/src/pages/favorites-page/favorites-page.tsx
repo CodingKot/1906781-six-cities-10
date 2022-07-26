@@ -2,16 +2,17 @@ import Header from '../../components/header/header';
 import HeaderNav from '../../components/header-nav/header-nav';
 import {Offers, Offer} from '../../types/offer';
 import {Link} from 'react-router-dom';
-import {useState} from 'react';
 import Card from '../../components/card/card';
-import {CardClass} from '../../const';
+import {ClassName} from '../../const';
+
+const IMG_WIDTH = '150';
+const IMG_HEIGHT = '110';
 
 type FavoritesPageProps = {
   offers: Offers;
 }
 
 function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
-  const [activeCard, setActiveCard] = useState(false);
 
   const favoriteOffers = offers.filter((offer) => offer.isFavorite).reduce((group: {[key: string]: Offer[]}, offer) => {
     const {city} = offer;
@@ -45,10 +46,11 @@ function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
                       (
                         <Card key={cityOffer.id}
                           offer={cityOffer}
-                          cardClass = {CardClass.Favorites}
-                          onMouseOver={()=>{
-                            setActiveCard(!activeCard);
-                          }}
+                          cardClassName = {ClassName.FavoritesCard}
+                          classNameWrapper = {ClassName.FavoritesImageWrapper}
+                          classNameInfo = {ClassName.FavoritesCardInfo}
+                          imgHeight = {IMG_HEIGHT}
+                          imgWidth = {IMG_WIDTH}
                         />
                       ))}
                   </div>

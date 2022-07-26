@@ -39,3 +39,4 @@ export type Offer = {
 export type OffersByCity = Record<string, Offers>;
 
 export type Offers = Offer[];
+export type Cities = City[];

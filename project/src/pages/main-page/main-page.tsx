@@ -1,17 +1,30 @@
 import Header from '../../components/header/header';
 import HeaderNav from '../../components/header-nav/header-nav';
 import OffersList from '../../components/offers-list/offers-list';
-import {Offers} from '../../types/offer';
+import {Offers, Cities, Offer} from '../../types/offer';
 import {Link} from 'react-router-dom';
 import {CITIES} from '../../const';
+import Map from '../../components/map/map';
+import { useState } from 'react';
 
 type MainPageProps = {
   offersCount: number;
   offers: Offers;
+  offerCities: Cities;
 }
 
 function MainPage(props: MainPageProps): JSX.Element {
-  const {offersCount, offers} = props;
+  const {offersCount, offers, offerCities} = props;
+  const currentCityIndex = offerCities.findIndex((offerCity) => offerCity.name === 'Amsterdam');
+  const cityOffers = offers.filter((offer) => offer.city.name === 'Amsterdam');
+  const [selectedPoint, setActivePoint] = useState<Offer | undefined>(
+    undefined
+  );
+  const onOfferHover = (offerId: number) => {
+    const currentPoint = offers.find((offer) => offer.id === offerId);
+    setActivePoint(currentPoint);
+  };
+
   return (
     <div className="page page--gray page--main">
       <Header>
@@ -23,9 +36,9 @@ function MainPage(props: MainPageProps): JSX.Element {
           <section className="locations container">
             <ul className="locations__list tabs__list">
               {CITIES.map((city) => (
-                <li className="locations__item" key={city}>
-                  <Link className= {`locations__item-link tabs__item ${city === 'Amsterdam' && 'tabs__item--active'}`} to="/">
-                    <span>{city}</span>
+                <li className="locations__item" key={city.name}>
+                  <Link className= {`locations__item-link tabs__item ${city.name === 'Amsterdam' && 'tabs__item--active'}`} to="/">
+                    <span>{city.name}</span>
                   </Link>
                 </li>
               ))}
@@ -52,10 +65,10 @@ function MainPage(props: MainPageProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offers}/>
+              <OffersList offers={offers} onOfferHover={onOfferHover}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map points={cityOffers} city={offerCities[currentCityIndex]} selectedPoint={selectedPoint} />
             </div>
           </div>
         </div>
