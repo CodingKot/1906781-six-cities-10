@@ -5,6 +5,7 @@ import {useParams} from 'react-router-dom';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import {Link} from 'react-router-dom';
 import CommentsForm from '../../components/comments-form/comments-form';
+import {getRatingPercent} from '../../utils/utils';
 
 type PropertyPageProps = {
   offers: Offers;
@@ -56,7 +57,7 @@ function PropertyPage(props: PropertyPageProps): JSX.Element {
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
                   <span style={{
-                    width: '80',
+                    width: getRatingPercent(rating),
                   }}
                   >
                   </span>

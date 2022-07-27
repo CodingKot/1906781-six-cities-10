@@ -2,16 +2,14 @@ import Header from '../../components/header/header';
 import HeaderNav from '../../components/header-nav/header-nav';
 import {Offers, Offer} from '../../types/offer';
 import {Link} from 'react-router-dom';
-import {useState} from 'react';
 import Card from '../../components/card/card';
-import {CardClass} from '../../const';
+
 
 type FavoritesPageProps = {
   offers: Offers;
 }
 
 function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
-  const [activeCard, setActiveCard] = useState(false);
 
   const favoriteOffers = offers.filter((offer) => offer.isFavorite).reduce((group: {[key: string]: Offer[]}, offer) => {
     const {city} = offer;
@@ -45,10 +43,11 @@ function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
                       (
                         <Card key={cityOffer.id}
                           offer={cityOffer}
-                          cardClass = {CardClass.Favorites}
-                          onMouseOver={()=>{
-                            setActiveCard(!activeCard);
-                          }}
+                          className = 'favorites__card'
+                          classNameWrapper = 'favorites__image-wrapper'
+                          classNameInfo = 'favorites__card-info'
+                          imgHeight = '110'
+                          imgWidth = '150'
                         />
                       ))}
                   </div>
