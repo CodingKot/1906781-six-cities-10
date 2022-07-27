@@ -11,15 +11,6 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export enum ClassName {
-  CitiesCard = 'cities__card',
-  FavoritesCard = 'favorites__card',
-  CitiesImageWrapper = 'cities__image-wrapper',
-  FavoritesImageWrapper = 'favorites__image-wrapper',
-  FavoritesCardInfo = 'favorites__card-info',
-  CitiesCardInfo = '',
-}
-
 export const CITIES = [
   {
     name: 'Paris',
@@ -94,5 +85,3 @@ export const RATING_MARKS = [
   }
 ];
 
-export const URL_MARKER_DEFAULT = 'img/pin.svg';
-export const URL_MARKER_CURRENT = 'img/pin-active.svg';

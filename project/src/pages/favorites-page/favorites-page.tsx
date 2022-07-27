@@ -3,10 +3,7 @@ import HeaderNav from '../../components/header-nav/header-nav';
 import {Offers, Offer} from '../../types/offer';
 import {Link} from 'react-router-dom';
 import Card from '../../components/card/card';
-import {ClassName} from '../../const';
 
-const IMG_WIDTH = '150';
-const IMG_HEIGHT = '110';
 
 type FavoritesPageProps = {
   offers: Offers;
@@ -46,11 +43,11 @@ function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
                       (
                         <Card key={cityOffer.id}
                           offer={cityOffer}
-                          cardClassName = {ClassName.FavoritesCard}
-                          classNameWrapper = {ClassName.FavoritesImageWrapper}
-                          classNameInfo = {ClassName.FavoritesCardInfo}
-                          imgHeight = {IMG_HEIGHT}
-                          imgWidth = {IMG_WIDTH}
+                          className = 'favorites__card'
+                          classNameWrapper = 'favorites__image-wrapper'
+                          classNameInfo = 'favorites__card-info'
+                          imgHeight = '110'
+                          imgWidth = '150'
                         />
                       ))}
                   </div>

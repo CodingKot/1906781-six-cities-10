@@ -1,16 +1,11 @@
 
 import {Offers} from '../../types/offer';
 import Card from '../card/card';
-import {ClassName} from '../../const';
-import { MouseEvent } from 'react';
-
-const IMG_WIDTH = '260';
-const IMG_HEIGHT = '200';
+import {MouseEvent} from 'react';
 
 type OffersListProps = {
   offers: Offers;
   onOfferHover: (offerItemId: number) => void;
-
 }
 
 function OffersList({offers, onOfferHover}: OffersListProps): JSX.Element {
@@ -24,12 +19,11 @@ function OffersList({offers, onOfferHover}: OffersListProps): JSX.Element {
         (
           <Card key={offer.id}
             offer={offer}
-            cardClassName = {ClassName.CitiesCard}
-            classNameWrapper = {ClassName.CitiesImageWrapper}
-            classNameInfo = {ClassName.CitiesCardInfo}
+            className = 'cities__card'
+            classNameWrapper = 'cities__image-wrapper'
             onOfferHover={offerHoverHandler}
-            imgWidth = {IMG_WIDTH}
-            imgHeight = {IMG_HEIGHT}
+            imgWidth = '260'
+            imgHeight = '200'
           />)
       )}
     </div>

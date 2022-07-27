@@ -1,28 +1,41 @@
 import Header from '../../components/header/header';
 import HeaderNav from '../../components/header-nav/header-nav';
 import OffersList from '../../components/offers-list/offers-list';
-import {Offers, Cities, Offer} from '../../types/offer';
+import {Offers, Cities, Offer, City} from '../../types/offer';
 import {Link} from 'react-router-dom';
-import {CITIES} from '../../const';
 import Map from '../../components/map/map';
-import { useState } from 'react';
+import {useState} from 'react';
+import {MouseEvent} from 'react';
 
 type MainPageProps = {
   offersCount: number;
   offers: Offers;
-  offerCities: Cities;
+  cities: Cities;
 }
 
 function MainPage(props: MainPageProps): JSX.Element {
-  const {offersCount, offers, offerCities} = props;
-  const currentCityIndex = offerCities.findIndex((offerCity) => offerCity.name === 'Amsterdam');
-  const cityOffers = offers.filter((offer) => offer.city.name === 'Amsterdam');
-  const [selectedPoint, setActivePoint] = useState<Offer | undefined>(
+  const {offersCount, offers, cities} = props;
+  const defaultCity = cities.find((city) => city.name === 'Amsterdam');
+  const cityOffers = offers.filter((offer) => offer.city.name === defaultCity?.name);
+  const [selectedOffer, setActiveOffer] = useState<Offer | undefined>(
     undefined
   );
+  const [selectedCity, setSelectedCity] = useState<City | undefined> (
+    defaultCity
+  );
   const onOfferHover = (offerId: number) => {
-    const currentPoint = offers.find((offer) => offer.id === offerId);
-    setActivePoint(currentPoint);
+    const currentOffer = offers.find((offer) => offer.id === offerId);
+    setActiveOffer(currentOffer);
+  };
+
+  const onMouseClick = (cityName: string) => {
+    const currentCity = cities.find((city) => city.name === cityName);
+    setSelectedCity(currentCity);
+  };
+
+  const mouseClickHandler = (evt: MouseEvent<HTMLLIElement>) => {
+    evt.preventDefault();
+    onMouseClick(evt.currentTarget.innerText);
   };
 
   return (
@@ -35,9 +48,9 @@ function MainPage(props: MainPageProps): JSX.Element {
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              {CITIES.map((city) => (
-                <li className="locations__item" key={city.name}>
-                  <Link className= {`locations__item-link tabs__item ${city.name === 'Amsterdam' && 'tabs__item--active'}`} to="/">
+              {cities.map((city) => (
+                <li className="locations__item" key={city.name} onClick = {mouseClickHandler}>
+                  <Link className= {`locations__item-link tabs__item ${selectedCity?.name === city.name && 'tabs__item--active'}`} to="/">
                     <span>{city.name}</span>
                   </Link>
                 </li>
@@ -65,10 +78,10 @@ function MainPage(props: MainPageProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offers} onOfferHover={onOfferHover}/>
+              <OffersList offers={cityOffers} onOfferHover={onOfferHover}/>
             </section>
             <div className="cities__right-section">
-              <Map points={cityOffers} city={offerCities[currentCityIndex]} selectedPoint={selectedPoint} />
+              <Map offers={cityOffers} city={selectedCity} selectedOffer={selectedOffer}/>
             </div>
           </div>
         </div>

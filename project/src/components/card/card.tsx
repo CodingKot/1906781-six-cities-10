@@ -8,20 +8,20 @@ import {MouseEvent} from 'react';
 type CardProps = {
   offer: Offer;
   onOfferHover?: (evt: MouseEvent<HTMLDivElement>) => void;
-  cardClassName: string;
+  className: string;
   classNameWrapper: string;
-  classNameInfo: string;
+  classNameInfo?: string;
   imgWidth: string;
   imgHeight: string;
 }
 
 function Card(props: CardProps): JSX.Element {
-  const {offer, onOfferHover, cardClassName, classNameWrapper, classNameInfo, imgWidth, imgHeight} = props;
+  const {offer, onOfferHover, className, classNameWrapper, classNameInfo, imgWidth, imgHeight} = props;
   const{id, title, isPremium, type, rating, price, previewImage, isFavorite} = offer;
   const offerLink = generatePath(AppRoute.Room, {id: `${id}`});
 
   return (
-    <article className={`${cardClassName} place-card`} onMouseEnter={onOfferHover} id = {`${id}`}>
+    <article className={`${className} place-card`} onMouseEnter={onOfferHover} id = {`${id}`}>
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
