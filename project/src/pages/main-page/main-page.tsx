@@ -2,40 +2,39 @@ import Header from '../../components/header/header';
 import HeaderNav from '../../components/header-nav/header-nav';
 import OffersList from '../../components/offers-list/offers-list';
 import {Offers, Cities, Offer, City} from '../../types/offer';
-import {Link} from 'react-router-dom';
 import Map from '../../components/map/map';
 import {useState} from 'react';
-import {MouseEvent} from 'react';
+import CitiesList from '../../components/cities-list/cities-list';
+import {useAppDispatch, useAppSelector} from '../../hooks/index';
+import {changeCity, findOffers} from '../../store/action';
 
 type MainPageProps = {
-  offersCount: number;
   offers: Offers;
   cities: Cities;
 }
 
 function MainPage(props: MainPageProps): JSX.Element {
-  const {offersCount, offers, cities} = props;
-  const defaultCity = cities.find((city) => city.name === 'Amsterdam');
-  const cityOffers = offers.filter((offer) => offer.city.name === defaultCity?.name);
+  const {offers, cities} = props;
+
   const [selectedOffer, setActiveOffer] = useState<Offer | undefined>(
     undefined
   );
-  const [selectedCity, setSelectedCity] = useState<City | undefined> (
-    defaultCity
-  );
-  const onOfferHover = (offerId: number) => {
-    const currentOffer = offers.find((offer) => offer.id === offerId);
-    setActiveOffer(currentOffer);
+
+  const selectedCity = useAppSelector((state) => state.choosenCity);
+  const cityOffers = useAppSelector((state) => state.choosenOffers);
+  const dispatch = useAppDispatch();
+
+  const handleOfferHover = (offer: Offer) => {
+    setActiveOffer(offer);
   };
 
-  const onMouseClick = (cityName: string) => {
-    const currentCity = cities.find((city) => city.name === cityName);
-    setSelectedCity(currentCity);
+  const handleCityClick = (city: City) => {
+    dispatch(changeCity({city}));
+    dispatch(findOffers({offers}));
   };
 
-  const mouseClickHandler = (evt: MouseEvent<HTMLLIElement>) => {
-    evt.preventDefault();
-    onMouseClick(evt.currentTarget.innerText);
+  const handelClick = (city: City) => {
+    handleCityClick(city);
   };
 
   return (
@@ -45,24 +44,12 @@ function MainPage(props: MainPageProps): JSX.Element {
       </Header>
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              {cities.map((city) => (
-                <li className="locations__item" key={city.name} onClick = {mouseClickHandler}>
-                  <Link className= {`locations__item-link tabs__item ${selectedCity?.name === city.name && 'tabs__item--active'}`} to="/">
-                    <span>{city.name}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-        </div>
+        <CitiesList cities={cities} selectedCity = {selectedCity} onCityClick = {handelClick}/>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersCount} places to stay in Amsterdam</b>
+              <b className="places__found">{cityOffers.length} places to stay in {selectedCity?.name}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -78,7 +65,7 @@ function MainPage(props: MainPageProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={cityOffers} onOfferHover={onOfferHover}/>
+              <OffersList offers={cityOffers} onOfferHover={handleOfferHover}/>
             </section>
             <div className="cities__right-section">
               <Map offers={cityOffers} city={selectedCity} selectedOffer={selectedOffer}/>

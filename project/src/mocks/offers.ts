@@ -137,4 +137,72 @@ export const offers: Offers = [
     },
     previewImage: 'img/apartment-03.jpg',
   },
+  {
+    id: 5,
+    images: ['img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/studio-01.jpg'],
+    title: 'Studio',
+    description: 'Luxurious studio at great location. Luxurious studio at great location. Luxurious studio at great location. Luxurious studio at great location.',
+    isPremium: true,
+    isFavorite: true,
+    type: 'Flat',
+    rating: 1.4,
+    bedrooms: 3,
+    maxAdults: 3,
+    price: 150,
+    goods: ['Wi-Fi', 'Washing machine', 'Heating', 'Coffee machine'],
+    host: {
+      id: 5,
+      avatarUrl: 'img/avatar-angelina.jpg',
+      name: 'Angelina',
+      isPro: true,
+    },
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 48.8534,
+        longitude: 2.3488,
+        zoom: 10,
+      }
+    },
+    location: {
+      latitude: 48.86543876543091,
+      longitude: 2.356543908789765,
+      zoom: 8
+    },
+    previewImage: 'img/room.jpg',
+  },
+  {
+    id: 6,
+    images: ['img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/studio-01.jpg'],
+    title: 'Luxurious room',
+    description: 'Luxurious studio at great location. Luxurious studio at great location. Luxurious studio at great location. Luxurious studio at great location.',
+    isPremium: false,
+    isFavorite: true,
+    type: 'Room',
+    rating: 5,
+    bedrooms: 2,
+    maxAdults: 2,
+    price: 100,
+    goods: ['Wi-Fi', 'Washing machine', 'Heating', 'Coffee machine', 'Kitchen', 'Dishwasher'],
+    host: {
+      id: 6,
+      avatarUrl: 'img/avatar-angelina.jpg',
+      name: 'Johan',
+      isPro: true,
+    },
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 48.8534,
+        longitude: 2.3488,
+        zoom: 10,
+      }
+    },
+    location: {
+      latitude: 48.84543876543091,
+      longitude: 2.33654390878976,
+      zoom: 8
+    },
+    previewImage: 'img/apartment-03.jpg',
+  },
 ];

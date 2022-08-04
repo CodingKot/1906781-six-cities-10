@@ -6,7 +6,7 @@ import useMap from '../../hooks/useMap';
 
 type MapProps = {
   offers: Offers;
-  city?: City;
+  city: City;
   selectedOffer?: Offer;
 };
 
@@ -23,7 +23,7 @@ const currentCustomIcon = new Icon({
 });
 
 function Map(props: MapProps): JSX.Element {
-  const {offers, city, selectedOffer} = props;
+  const {city, offers, selectedOffer} = props;
   const mapRef = useRef(null);
 
   const map = useMap(mapRef, city);

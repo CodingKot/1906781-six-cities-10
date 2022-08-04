@@ -1,17 +1,15 @@
-
-import {Offers} from '../../types/offer';
+import {Offers, Offer} from '../../types/offer';
 import Card from '../card/card';
-import {MouseEvent} from 'react';
+
 
 type OffersListProps = {
   offers: Offers;
-  onOfferHover: (offerItemId: number) => void;
+  onOfferHover: (offer: Offer) => void;
 }
 
 function OffersList({offers, onOfferHover}: OffersListProps): JSX.Element {
-  const offerHoverHandler = (evt: MouseEvent<HTMLDivElement>) => {
-    evt.preventDefault();
-    onOfferHover(Number(evt.currentTarget.id));
+  const offerHoverHandler = (offer: Offer) => {
+    onOfferHover(offer);
   };
   return (
     <div className="cities__places-list places__list tabs__content">
