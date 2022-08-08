@@ -1,12 +1,12 @@
 import {useRef, useEffect} from 'react';
-import {Icon, Marker} from 'leaflet';
+import {Icon, Marker, layerGroup} from 'leaflet';
 import {Offers, Offer, City} from '../../types/offer';
 import 'leaflet/dist/leaflet.css';
 import useMap from '../../hooks/useMap';
 
 type MapProps = {
   offers: Offers;
-  city?: City;
+  city: City;
   selectedOffer?: Offer;
 };
 
@@ -23,12 +23,18 @@ const currentCustomIcon = new Icon({
 });
 
 function Map(props: MapProps): JSX.Element {
-  const {offers, city, selectedOffer} = props;
+  const {city, offers, selectedOffer} = props;
+
   const mapRef = useRef(null);
 
   const map = useMap(mapRef, city);
-
+  const markersLayer = layerGroup();
+  if(map) {
+    markersLayer.addTo(map);
+  }
   useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log(mapRef);
     if(map) {
       offers.forEach((offer) => {
         const marker = new Marker({
@@ -41,10 +47,16 @@ function Map(props: MapProps): JSX.Element {
               ? currentCustomIcon
               : defaultCustomIcon
           )
-          .addTo(map);
+          .addTo(markersLayer);
       });
+
+
+      return () => {
+        markersLayer.clearLayers();
+      };
+
     }
-  }, [map, offers, selectedOffer]);
+  }, [city, map, markersLayer, offers, selectedOffer]);
 
   return (
     <section className="cities__map map" ref={mapRef}></section>

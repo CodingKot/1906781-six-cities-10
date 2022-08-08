@@ -2,12 +2,11 @@ import {Offer} from '../../types/offer';
 import {generatePath, Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {getRatingPercent} from '../../utils/utils';
-import {MouseEvent} from 'react';
 
 
 type CardProps = {
   offer: Offer;
-  onOfferHover?: (evt: MouseEvent<HTMLDivElement>) => void;
+  onOfferHover?: (offer: Offer) => void;
   className: string;
   classNameWrapper: string;
   classNameInfo?: string;
@@ -21,7 +20,7 @@ function Card(props: CardProps): JSX.Element {
   const offerLink = generatePath(AppRoute.Room, {id: `${id}`});
 
   return (
-    <article className={`${className} place-card`} onMouseEnter={onOfferHover} id = {`${id}`}>
+    <article className={`${className} place-card`} onMouseEnter={() => onOfferHover?.(offer)} id = {`${id}`}>
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
