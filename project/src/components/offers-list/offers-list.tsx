@@ -8,9 +8,7 @@ type OffersListProps = {
 }
 
 function OffersList({offers, onOfferHover}: OffersListProps): JSX.Element {
-  const offerHoverHandler = (offer: Offer) => {
-    onOfferHover(offer);
-  };
+
   return (
     <div className="cities__places-list places__list tabs__content">
       {offers.map((offer) =>
@@ -19,7 +17,7 @@ function OffersList({offers, onOfferHover}: OffersListProps): JSX.Element {
             offer={offer}
             className = 'cities__card'
             classNameWrapper = 'cities__image-wrapper'
-            onOfferHover={offerHoverHandler}
+            onOfferHover={onOfferHover}
             imgWidth = '260'
             imgHeight = '200'
           />)

@@ -20,7 +20,7 @@ function App({offers, cities}: AppScreenProps): JSX.Element {
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainPage offers = {offers} cities={cities} />}
+          element={<MainPage cities={cities} />}
         />
         <Route
           path={AppRoute.Favorites}

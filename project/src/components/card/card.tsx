@@ -20,7 +20,7 @@ function Card(props: CardProps): JSX.Element {
   const offerLink = generatePath(AppRoute.Room, {id: `${id}`});
 
   return (
-    <article className={`${className} place-card`} onMouseEnter={onOfferHover ? () => onOfferHover(offer) : undefined} id = {`${id}`}>
+    <article className={`${className} place-card`} onMouseEnter={() => onOfferHover?.(offer)} id = {`${id}`}>
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>

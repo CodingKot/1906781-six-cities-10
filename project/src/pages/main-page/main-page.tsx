@@ -1,36 +1,36 @@
 import Header from '../../components/header/header';
 import HeaderNav from '../../components/header-nav/header-nav';
 import OffersList from '../../components/offers-list/offers-list';
-import {Offers, Cities, Offer, City} from '../../types/offer';
+import {Cities, Offer, City} from '../../types/offer';
 import Map from '../../components/map/map';
 import {useState} from 'react';
 import CitiesList from '../../components/cities-list/cities-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/index';
-import {changeCity, findOffers} from '../../store/action';
+import {changeCity} from '../../store/action';
+import {getSelectedCityOffers} from '../../store/selectors';
 
 type MainPageProps = {
-  offers: Offers;
   cities: Cities;
 }
 
 function MainPage(props: MainPageProps): JSX.Element {
-  const {offers, cities} = props;
+  const {cities} = props;
 
-  const [selectedOffer, setActiveOffer] = useState<Offer | undefined>(
+  const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
     undefined
   );
 
-  const selectedCity = useAppSelector((state) => state.choosenCity);
-  const cityOffers = useAppSelector((state) => state.choosenOffers);
+  const selectedCity = useAppSelector((state) => state.selectedCity);
+  const cityOffers = useAppSelector(getSelectedCityOffers);
   const dispatch = useAppDispatch();
 
   const handleOfferHover = (offer: Offer) => {
-    setActiveOffer(offer);
+    setSelectedOffer(offer);
   };
 
   const handleCityClick = (city: City) => {
     dispatch(changeCity({city}));
-    dispatch(findOffers({offers}));
+    setSelectedOffer(undefined);
   };
 
   const handelClick = (city: City) => {
