@@ -40,12 +40,12 @@ function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
                   </div>
 
                   <OffersList offers={cityOffers}
-                    className={'favorites__places'}
-                    classNameForCard={'favorites__card'}
-                    classNameWrapper = 'favorites__image-wrapper'
-                    classNameInfo = 'favorites__card-info'
-                    imgHeight = '110'
-                    imgWidth = '150'
+                    className="favorites__places"
+                    classNameForCard="favorites__card"
+                    classNameWrapper="favorites__image-wrapper"
+                    classNameInfo="favorites__card-info"
+                    imgHeight="110"
+                    imgWidth="150"
                   />
                 </li>
               ))}

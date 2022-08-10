@@ -1,6 +1,6 @@
 import Header from '../../components/header/header';
 import HeaderNav from '../../components/header-nav/header-nav';
-import {Offers, Offer} from '../../types/offer';
+import {Offers} from '../../types/offer';
 import { Reviews } from '../../types/review';
 import {useParams} from 'react-router-dom';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
@@ -9,7 +9,6 @@ import {getRatingPercent} from '../../utils/utils';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
-import {useState} from 'react';
 
 type PropertyPageProps = {
   offers: Offers;
@@ -21,18 +20,12 @@ function PropertyPage(props: PropertyPageProps): JSX.Element {
   const {offers, reviews, nearbyOffers} = props;
   const params = useParams();
   const offer = offers.find((item) => item.id === Number(params.id));
-  const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
-    undefined
-  );
   if(offer === undefined) {
     return <NotFoundPage/>;
   }
-
   const {title, isPremium, type, rating, price, goods, host, images, bedrooms, maxAdults, description} = offer;
 
-  const handleOfferHover = (nearbyOffer: Offer) => {
-    setSelectedOffer(nearbyOffer);
-  };
+  const propertyPageOffers = [...nearbyOffers, offer];
 
   return (
     <div className="page">
@@ -126,18 +119,17 @@ function PropertyPage(props: PropertyPageProps): JSX.Element {
               </section>
             </div>
           </div>
-          <Map className='property__map' offers={nearbyOffers} location={offer.city.location} selectedOffer = {selectedOffer}/>
+          <Map className="property__map" offers={propertyPageOffers} location={offer.city.location} selectedOffer = {offer}/>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <OffersList offers={nearbyOffers}
-              className= {'near-places__list places__list'}
-              onOfferHover={handleOfferHover}
-              classNameForCard={'near-places__card'}
-              classNameWrapper={'near-places__image-wrapper'}
-              imgHeight={'200'}
-              imgWidth={'260'}
+              className= "near-places__list places__list"
+              classNameForCard="near-places__card"
+              classNameWrapper="near-places__image-wrapper"
+              imgHeight="200"
+              imgWidth="260"
             />
           </section>
         </div>

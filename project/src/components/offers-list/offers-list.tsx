@@ -21,12 +21,12 @@ function OffersList({offers, onOfferHover, className, classNameForCard, classNam
         (
           <Card key={offer.id}
             offer={offer}
-            className = {classNameForCard}
-            classNameWrapper = {classNameWrapper}
-            classNameInfo = {classNameInfo}
+            className={classNameForCard}
+            classNameWrapper={classNameWrapper}
+            classNameInfo={classNameInfo}
             onOfferHover={onOfferHover}
-            imgWidth = {imgWidth}
-            imgHeight = {imgHeight}
+            imgWidth={imgWidth}
+            imgHeight={imgHeight}
           />)
       )}
     </div>

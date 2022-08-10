@@ -39,7 +39,8 @@ function useMap(
       lat: location.latitude,
       lng: location.longitude,
     }, location.zoom);
-  }, [location, map]);
+  },
+  [location, map]);
   return map;
 }
 

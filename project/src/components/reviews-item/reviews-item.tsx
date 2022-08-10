@@ -9,7 +9,7 @@ type ReviewsItemProps = {
 function ReviewsItem({review}: ReviewsItemProps): JSX.Element {
   const {comment, date, id, rating, user} = review;
   return (
-    <li className="reviews__item" id = {`${id}`}>
+    <li className="reviews__item" id={`${id}`}>
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
           <img className="reviews__avatar user__avatar" src={user.avatarUrl} width="54" height="54" alt="Reviews avatar"/>

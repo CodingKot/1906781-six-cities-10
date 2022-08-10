@@ -2,7 +2,7 @@ import {Offers} from '../types/offer';
 
 export const nearbyOffers: Offers = [
   {
-    id: 1,
+    id: 56,
     images: ['img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/studio-01.jpg'],
     title: 'Studio',
     description: 'Luxurious studio at great location. Luxurious studio at great location. Luxurious studio at great location. Luxurious studio at great location.',
@@ -29,14 +29,14 @@ export const nearbyOffers: Offers = [
       }
     },
     location: {
-      latitude: 52.3909553943508,
-      longitude: 4.85309666406198,
+      latitude: 52.4119553943508,
+      longitude: 4.89409666406198,
       zoom: 8
     },
     previewImage: 'img/room.jpg',
   },
   {
-    id: 2,
+    id: 57,
     images: ['img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/studio-01.jpg'],
     title: 'Luxurious room',
     description: 'Luxurious studio at great location. Luxurious studio at great location. Luxurious studio at great location. Luxurious studio at great location.',
@@ -63,14 +63,14 @@ export const nearbyOffers: Offers = [
       }
     },
     location: {
-      latitude: 52.369553943508,
-      longitude: 4.85309666406198,
+      latitude: 52.339553943508,
+      longitude: 4.81509666406198,
       zoom: 8
     },
     previewImage: 'img/apartment-03.jpg',
   },
   {
-    id: 3,
+    id: 58,
     images: ['img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/studio-01.jpg', 'img/apartment-03.jpg'],
     title: 'Beautiful house',
     description: 'Luxurious studio at great location. Luxurious studio at great location. Luxurious studio at great location. Luxurious studio at great location.',
@@ -97,8 +97,8 @@ export const nearbyOffers: Offers = [
       }
     },
     location: {
-      latitude: 52.3909553943508,
-      longitude: 4.929309666406198,
+      latitude: 52.3589553943508,
+      longitude: 4.889309666406198,
       zoom: 8
     },
     previewImage: 'img/apartment-01.jpg',

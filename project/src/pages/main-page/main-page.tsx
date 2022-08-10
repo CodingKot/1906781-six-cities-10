@@ -65,18 +65,18 @@ function MainPage(props: MainPageProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList className = 'cities__places-list places__list tabs__content'
+              <OffersList className="cities__places-list places__list tabs__content"
                 offers={cityOffers}
                 onOfferHover={handleOfferHover}
-                classNameForCard={'cities__card'}
-                classNameWrapper={'cities__image-wrapper'}
-                imgHeight={'200'}
-                imgWidth={'260'}
+                classNameForCard="cities__card"
+                classNameWrapper="cities__image-wrapper"
+                imgHeight="200"
+                imgWidth="260"
 
               />
             </section>
             <div className="cities__right-section">
-              <Map className = 'cities__map' offers={cityOffers} location={selectedCity.location} selectedOffer={selectedOffer}/>
+              <Map className="cities__map" offers={cityOffers} location={selectedCity.location} selectedOffer={selectedOffer}/>
             </div>
           </div>
         </div>
