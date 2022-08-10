@@ -1,6 +1,6 @@
 import {Offers} from '../types/offer';
 
-export const offers: Offers = [
+export const nearbyOffers: Offers = [
   {
     id: 1,
     images: ['img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/studio-01.jpg'],
@@ -65,7 +65,7 @@ export const offers: Offers = [
     location: {
       latitude: 52.369553943508,
       longitude: 4.85309666406198,
-      zoom: 8,
+      zoom: 8
     },
     previewImage: 'img/apartment-03.jpg',
   },
@@ -102,107 +102,5 @@ export const offers: Offers = [
       zoom: 8
     },
     previewImage: 'img/apartment-01.jpg',
-  },
-  {
-    id: 4,
-    images: ['img/apartment-03.jpg', 'img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/studio-01.jpg'],
-    title: 'Quiet hotel',
-    description: 'Luxurious studio at great location. Luxurious studio at great location. Luxurious studio at great location. Luxurious studio at great location.',
-    isPremium: true,
-    isFavorite: false,
-    type: 'Hotel',
-    rating: 2.7,
-    bedrooms: 3,
-    maxAdults: 3,
-    price: 150,
-    goods: ['Coffee machine', 'Cabel TV', 'Fridge'],
-    host: {
-      id: 4,
-      avatarUrl: 'img/avatar-angelina.jpg',
-      name: 'Matt',
-      isPro: true,
-    },
-    city: {
-      name: 'Amsterdam',
-      location: {
-        latitude: 52.370216,
-        longitude: 4.895168,
-        zoom: 10,
-      }
-    },
-    location: {
-      latitude: 52.3809553943508,
-      longitude: 4.939309666406198,
-      zoom: 8
-    },
-    previewImage: 'img/apartment-03.jpg',
-  },
-  {
-    id: 5,
-    images: ['img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/studio-01.jpg'],
-    title: 'Studio',
-    description: 'Luxurious studio at great location. Luxurious studio at great location. Luxurious studio at great location. Luxurious studio at great location.',
-    isPremium: true,
-    isFavorite: true,
-    type: 'Flat',
-    rating: 1.4,
-    bedrooms: 3,
-    maxAdults: 3,
-    price: 150,
-    goods: ['Wi-Fi', 'Washing machine', 'Heating', 'Coffee machine'],
-    host: {
-      id: 5,
-      avatarUrl: 'img/avatar-angelina.jpg',
-      name: 'Angelina',
-      isPro: true,
-    },
-    city: {
-      name: 'Paris',
-      location: {
-        latitude: 48.8534,
-        longitude: 2.3488,
-        zoom: 10,
-      }
-    },
-    location: {
-      latitude: 48.86543876543091,
-      longitude: 2.356543908789765,
-      zoom: 8
-    },
-    previewImage: 'img/room.jpg',
-  },
-  {
-    id: 6,
-    images: ['img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/studio-01.jpg'],
-    title: 'Luxurious room',
-    description: 'Luxurious studio at great location. Luxurious studio at great location. Luxurious studio at great location. Luxurious studio at great location.',
-    isPremium: false,
-    isFavorite: true,
-    type: 'Room',
-    rating: 5,
-    bedrooms: 2,
-    maxAdults: 2,
-    price: 100,
-    goods: ['Wi-Fi', 'Washing machine', 'Heating', 'Coffee machine', 'Kitchen', 'Dishwasher'],
-    host: {
-      id: 6,
-      avatarUrl: 'img/avatar-angelina.jpg',
-      name: 'Johan',
-      isPro: true,
-    },
-    city: {
-      name: 'Paris',
-      location: {
-        latitude: 48.8534,
-        longitude: 2.3488,
-        zoom: 10,
-      }
-    },
-    location: {
-      latitude: 48.84543876543091,
-      longitude: 2.33654390878976,
-      zoom: 8
-    },
-    previewImage: 'img/apartment-03.jpg',
   },
 ];

@@ -4,22 +4,29 @@ import Card from '../card/card';
 
 type OffersListProps = {
   offers: Offers;
-  onOfferHover: (offer: Offer) => void;
+  onOfferHover?: (offer: Offer) => void;
+  className: string;
+  classNameForCard: string;
+  classNameWrapper: string;
+  classNameInfo?: string;
+  imgWidth: string;
+  imgHeight: string;
 }
 
-function OffersList({offers, onOfferHover}: OffersListProps): JSX.Element {
+function OffersList({offers, onOfferHover, className, classNameForCard, classNameWrapper, classNameInfo, imgWidth, imgHeight}: OffersListProps): JSX.Element {
 
   return (
-    <div className="cities__places-list places__list tabs__content">
+    <div className={className}>
       {offers.map((offer) =>
         (
           <Card key={offer.id}
             offer={offer}
-            className = 'cities__card'
-            classNameWrapper = 'cities__image-wrapper'
+            className = {classNameForCard}
+            classNameWrapper = {classNameWrapper}
+            classNameInfo = {classNameInfo}
             onOfferHover={onOfferHover}
-            imgWidth = '260'
-            imgHeight = '200'
+            imgWidth = {imgWidth}
+            imgHeight = {imgHeight}
           />)
       )}
     </div>

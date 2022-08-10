@@ -2,7 +2,7 @@ import Header from '../../components/header/header';
 import HeaderNav from '../../components/header-nav/header-nav';
 import {Offers, Offer} from '../../types/offer';
 import {Link} from 'react-router-dom';
-import Card from '../../components/card/card';
+import OffersList from '../../components/offers-list/offers-list';
 
 
 type FavoritesPageProps = {
@@ -38,19 +38,15 @@ function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
                       </Link>
                     </div>
                   </div>
-                  <div className="favorites__places">
-                    {cityOffers.map((cityOffer) =>
-                      (
-                        <Card key={cityOffer.id}
-                          offer={cityOffer}
-                          className = 'favorites__card'
-                          classNameWrapper = 'favorites__image-wrapper'
-                          classNameInfo = 'favorites__card-info'
-                          imgHeight = '110'
-                          imgWidth = '150'
-                        />
-                      ))}
-                  </div>
+
+                  <OffersList offers={cityOffers}
+                    className={'favorites__places'}
+                    classNameForCard={'favorites__card'}
+                    classNameWrapper = 'favorites__image-wrapper'
+                    classNameInfo = 'favorites__card-info'
+                    imgHeight = '110'
+                    imgWidth = '150'
+                  />
                 </li>
               ))}
             </ul>
