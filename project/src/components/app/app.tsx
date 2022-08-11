@@ -7,14 +7,17 @@ import PropertyPage from '../../pages/property-page/property-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import {Offers, Cities} from '../../types/offer';
+import {Reviews} from '../../types/review';
 
 
 type AppScreenProps = {
   offers: Offers;
   cities: Cities;
+  reviews: Reviews;
+  nearbyOffers: Offers;
 }
 
-function App({offers, cities}: AppScreenProps): JSX.Element {
+function App({offers, cities, reviews, nearbyOffers}: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
@@ -38,7 +41,7 @@ function App({offers, cities}: AppScreenProps): JSX.Element {
         />
         <Route
           path={AppRoute.Room}
-          element={<PropertyPage offers={offers}/>}
+          element={<PropertyPage offers={offers} reviews={reviews} nearbyOffers={nearbyOffers}/>}
         />
         <Route
           path="*"
