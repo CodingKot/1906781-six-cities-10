@@ -85,3 +85,17 @@ export const RATING_MARKS = [
   }
 ];
 
+export enum SortingType {
+  Populap = 'Popular',
+  PriceToHigh = 'Price: low to high',
+  PriceToLow = 'Price: high to low',
+  TopRated = 'Top rated first',
+}
+
+export const SORTING_ITEMS = [
+  {value: SortingType.Populap, label: 'Popular' },
+  {value: SortingType.PriceToHigh, label: 'Price: low to high'},
+  {value: SortingType.PriceToLow, label: 'Price: high to low'},
+  {value: SortingType.TopRated, label: 'Top rated first'},
+];
+
