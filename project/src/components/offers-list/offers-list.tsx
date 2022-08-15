@@ -3,7 +3,7 @@ import Card from '../card/card';
 
 
 type OffersListProps = {
-  offers: Offers;
+  offers?: Offers;
   onOfferHover?: (offer: Offer) => void;
   className: string;
   classNameForCard: string;
@@ -17,7 +17,7 @@ function OffersList({offers, onOfferHover, className, classNameForCard, classNam
 
   return (
     <div className={className}>
-      {offers.map((offer) =>
+      {offers?.map((offer) =>
         (
           <Card key={offer.id}
             offer={offer}
