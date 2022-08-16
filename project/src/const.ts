@@ -5,6 +5,12 @@ export enum AppRoute {
   Room = '/offer/:id',
 }
 
+export enum APIRoute {
+  Offers = '/hotels',
+  Login = '/login',
+  Logout = '/logout',
+}
+
 export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
@@ -23,16 +29,16 @@ export const CITIES = [
   {
     name: 'Cologne',
     location: {
-      latitude: 52.370216,
-      longitude: 4.895168,
+      latitude: 50.93753,
+      longitude: 6.96028,
       zoom: 10,
     }
   },
   {
     name: 'Brussels',
     location: {
-      latitude: 52.370216,
-      longitude: 4.895168,
+      latitude: 50.8504,
+      longitude: 4.34878,
       zoom: 10,
     }
   },
@@ -47,16 +53,16 @@ export const CITIES = [
   {
     name: 'Hamburg',
     location: {
-      latitude: 52.370216,
-      longitude: 4.895168,
+      latitude: 53.5753,
+      longitude: 10.0153,
       zoom: 10,
     }
   },
   {
     name: 'Dusseldorf',
     location: {
-      latitude: 52.370216,
-      longitude: 4.895168,
+      latitude: 	51.2217,
+      longitude: 6.77616,
       zoom: 10,
     }
   },
@@ -98,4 +104,6 @@ export const SORTING_ITEMS = [
   {value: SortingType.PriceToLow, label: 'Price: high to low'},
   {value: SortingType.TopRated, label: 'Top rated first'},
 ];
+
+export const TIMEOUT_SHOW_ERROR = 5000;
 

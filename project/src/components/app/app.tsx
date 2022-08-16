@@ -1,5 +1,6 @@
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
+import {useAppSelector} from '../../hooks';
 import MainPage from '../../pages/main-page/main-page';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
 import LoginPage from '../../pages/login-page/login-page';
@@ -8,16 +9,23 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import {Offers, Cities} from '../../types/offer';
 import {Reviews} from '../../types/review';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 
 type AppScreenProps = {
-  offers: Offers;
   cities: Cities;
   reviews: Reviews;
   nearbyOffers: Offers;
 }
 
-function App({offers, cities, reviews, nearbyOffers}: AppScreenProps): JSX.Element {
+function App({cities, reviews, nearbyOffers}: AppScreenProps): JSX.Element {
+  const {isDataLoaded} = useAppSelector((state) => state);
+  if(isDataLoaded) {
+    return (
+      <LoadingScreen/>
+    );
+  }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -31,7 +39,7 @@ function App({offers, cities, reviews, nearbyOffers}: AppScreenProps): JSX.Eleme
             <PrivateRoute
               authorizationStatus={AuthorizationStatus.Auth}
             >
-              <FavoritesPage offers={offers}/>
+              <FavoritesPage />
             </PrivateRoute>
           }
         />
@@ -41,7 +49,7 @@ function App({offers, cities, reviews, nearbyOffers}: AppScreenProps): JSX.Eleme
         />
         <Route
           path={AppRoute.Room}
-          element={<PropertyPage offers={offers} reviews={reviews} nearbyOffers={nearbyOffers}/>}
+          element={<PropertyPage reviews={reviews} nearbyOffers={nearbyOffers}/>}
         />
         <Route
           path="*"
