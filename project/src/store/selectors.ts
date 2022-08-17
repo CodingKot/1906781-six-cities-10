@@ -1,4 +1,5 @@
 import {State} from '../types/state';
+import {Offer} from '../types/offer';
 import { SortingType } from '../const';
 import {comparePriceToHigh, comparePriceToLow, compareRatings} from '../utils/utils';
 
@@ -18,3 +19,20 @@ export const getSortedCityOffers = (state: State) => {
       return offers.sort(compareRatings);
   }
 };
+
+export const getIsDataLoaded = (state: State) => state.isDataLoaded;
+
+export const getGroupedOffers = (state: State) => (
+  Object.entries((state.offers).filter((offer) => offer.isFavorite)
+    .reduce((group: {[key: string]: Offer[]}, offer) => {
+      const {city} = offer;
+      group[city.name] = group[city.name] ?? [];
+      group[city.name].push(offer);
+      return group;
+    },
+    {})
+  ));
+
+
+export const getOfferById = (id: number) => (state: State) => (state.offers).find((item) => item.id === id);
+

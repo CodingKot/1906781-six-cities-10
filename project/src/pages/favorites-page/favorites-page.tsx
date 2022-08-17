@@ -1,23 +1,14 @@
 import Header from '../../components/header/header';
 import HeaderNav from '../../components/header-nav/header-nav';
-import {Offers, Offer} from '../../types/offer';
 import {Link} from 'react-router-dom';
 import OffersList from '../../components/offers-list/offers-list';
+import {useAppSelector} from '../../hooks/index';
+import {getGroupedOffers} from '../../store/selectors';
 
 
-type FavoritesPageProps = {
-  offers: Offers;
-}
+function FavoritesPage(): JSX.Element {
 
-function FavoritesPage({offers}: FavoritesPageProps): JSX.Element {
-
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite).reduce((group: {[key: string]: Offer[]}, offer) => {
-    const {city} = offer;
-    group[city.name] = group[city.name] ?? [];
-    group[city.name].push(offer);
-    return group;
-  }, {});
-  const groupedOffers = Object.entries(favoriteOffers);
+  const groupedOffers = useAppSelector(getGroupedOffers);
 
   return (
     <div className="page">

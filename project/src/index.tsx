@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import {offers} from './mocks/offers';
 import {reviews} from './mocks/reviews';
 import {nearbyOffers} from './mocks/nearby-offers';
 import {CITIES} from './const';
 import {Provider} from 'react-redux';
 import {store} from './store';
+import ErrorMessage from './components/error-message/error-message';
+import {fetchOffers} from './store/api-actions';
+
+store.dispatch(fetchOffers());
 
 
 const root = ReactDOM.createRoot(
@@ -16,8 +19,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      <ErrorMessage/>
       <App
-        offers={offers}
         cities={CITIES}
         reviews={reviews}
         nearbyOffers={nearbyOffers}

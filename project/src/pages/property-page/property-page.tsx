@@ -9,17 +9,18 @@ import {getRatingPercent} from '../../utils/utils';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
+import {useAppSelector} from '../../hooks/index';
+import {getOfferById} from '../../store/selectors';
 
 type PropertyPageProps = {
-  offers: Offers;
   reviews: Reviews;
   nearbyOffers: Offers;
 }
 
 function PropertyPage(props: PropertyPageProps): JSX.Element {
-  const {offers, reviews, nearbyOffers} = props;
+  const {reviews, nearbyOffers} = props;
   const params = useParams();
-  const offer = offers.find((item) => item.id === Number(params.id));
+  const offer = useAppSelector(getOfferById(Number(params.id)));
   if(offer === undefined) {
     return <NotFoundPage/>;
   }
