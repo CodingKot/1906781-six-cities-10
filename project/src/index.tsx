@@ -7,9 +7,9 @@ import {CITIES} from './const';
 import {Provider} from 'react-redux';
 import {store} from './store';
 import ErrorMessage from './components/error-message/error-message';
-import {fetchOffersAction} from './store/api-actions';
+import {fetchOffers} from './store/api-actions';
 
-store.dispatch(fetchOffersAction());
+store.dispatch(fetchOffers());
 
 
 const root = ReactDOM.createRoot(

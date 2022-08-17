@@ -10,6 +10,7 @@ import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
 import {useAppSelector} from '../../hooks/index';
+import {getOfferById} from '../../store/selectors';
 
 type PropertyPageProps = {
   reviews: Reviews;
@@ -19,7 +20,7 @@ type PropertyPageProps = {
 function PropertyPage(props: PropertyPageProps): JSX.Element {
   const {reviews, nearbyOffers} = props;
   const params = useParams();
-  const offer = useAppSelector((state) => state.offers).find((item) => item.id === Number(params.id));
+  const offer = useAppSelector(getOfferById(Number(params.id)));
   if(offer === undefined) {
     return <NotFoundPage/>;
   }

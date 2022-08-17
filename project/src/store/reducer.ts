@@ -3,6 +3,7 @@ import {changeCity, changeSortingType, resetOffers, loadOffers, setError, setDat
 import {CITIES, SortingType} from '../const';
 import {City, Offers} from '../types/offer';
 
+
 type InitialState = {
   selectedCity: City,
   selectedSortingType: SortingType,

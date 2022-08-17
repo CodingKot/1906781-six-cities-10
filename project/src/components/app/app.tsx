@@ -10,6 +10,7 @@ import PrivateRoute from '../private-route/private-route';
 import {Offers, Cities} from '../../types/offer';
 import {Reviews} from '../../types/review';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
+import {getIsDataLoaded} from '../../store/selectors';
 
 
 type AppScreenProps = {
@@ -19,7 +20,7 @@ type AppScreenProps = {
 }
 
 function App({cities, reviews, nearbyOffers}: AppScreenProps): JSX.Element {
-  const {isDataLoaded} = useAppSelector((state) => state);
+  const isDataLoaded = useAppSelector(getIsDataLoaded);
   if(isDataLoaded) {
     return (
       <LoadingScreen/>

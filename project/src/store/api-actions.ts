@@ -7,7 +7,7 @@ import {APIRoute, TIMEOUT_SHOW_ERROR} from '../const';
 import {store} from './';
 
 
-export const clearErrorAction = createAsyncThunk(
+export const clearError = createAsyncThunk(
   'clearError',
   () => {
     setTimeout(
@@ -17,15 +17,15 @@ export const clearErrorAction = createAsyncThunk(
   },
 );
 
-export const fetchOffersAction = createAsyncThunk<void, undefined, {
+export const fetchOffers = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
   'fetchOffers',
   async(_arg, {dispatch, extra: api}) => {
-    const {data} = await api.get<Offers>(APIRoute.Offers);
     dispatch(setDataLoadedStatus(true));
+    const {data} = await api.get<Offers>(APIRoute.Offers);
     dispatch(loadOffers(data));
     dispatch(setDataLoadedStatus(false));
   }
