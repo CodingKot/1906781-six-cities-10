@@ -1,5 +1,5 @@
-import {Route, BrowserRouter, Routes} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {Route, Routes} from 'react-router-dom';
+import {AppRoute} from '../../const';
 import {useAppSelector} from '../../hooks';
 import MainPage from '../../pages/main-page/main-page';
 import FavoritesPage from '../../pages/favorites-page/favorites-page';
@@ -10,8 +10,10 @@ import PrivateRoute from '../private-route/private-route';
 import {Offers, Cities} from '../../types/offer';
 import {Reviews} from '../../types/review';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
-import {getIsDataLoaded} from '../../store/selectors';
-
+import {isCheckingAuth} from '../../utils/utils';
+import {getAuthorizationStatus, getIsDataLoading} from '../../store/selectors';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 
 type AppScreenProps = {
   cities: Cities;
@@ -20,15 +22,17 @@ type AppScreenProps = {
 }
 
 function App({cities, reviews, nearbyOffers}: AppScreenProps): JSX.Element {
-  const isDataLoaded = useAppSelector(getIsDataLoaded);
-  if(isDataLoaded) {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isDataLoading = useAppSelector(getIsDataLoading);
+
+  if(isCheckingAuth(authorizationStatus) || isDataLoading) {
     return (
       <LoadingScreen/>
     );
   }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route
           path={AppRoute.Main}
@@ -37,9 +41,7 @@ function App({cities, reviews, nearbyOffers}: AppScreenProps): JSX.Element {
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute
-              authorizationStatus={AuthorizationStatus.Auth}
-            >
+            <PrivateRoute>
               <FavoritesPage />
             </PrivateRoute>
           }
@@ -57,7 +59,7 @@ function App({cities, reviews, nearbyOffers}: AppScreenProps): JSX.Element {
           element={<NotFoundPage/>}
         />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

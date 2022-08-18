@@ -1,5 +1,5 @@
 import Header from '../../components/header/header';
-import HeaderNav from '../../components/header-nav/header-nav';
+import NotLogged from '../../components/not-logged/not-logged';
 import OffersList from '../../components/offers-list/offers-list';
 import {Cities, Offer, City} from '../../types/offer';
 import Map from '../../components/map/map';
@@ -7,9 +7,10 @@ import {useState} from 'react';
 import CitiesList from '../../components/cities-list/cities-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/index';
 import {changeCity, changeSortingType, resetOffers} from '../../store/action';
-import {getSelectedCityOffers, getSortedCityOffers} from '../../store/selectors';
+import {getSelectedCityOffers, getSortedCityOffers, getAuthorizationStatus} from '../../store/selectors';
 import SortingForm from '../../components/sorting-form/sorting-form';
-import { SortingType } from '../../const';
+import {SortingType, AuthorizationStatus} from '../../const';
+import Logged from '../../components/logged/logged';
 
 type MainPageProps = {
   cities: Cities;
@@ -50,7 +51,9 @@ function MainPage(props: MainPageProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Header>
-        <HeaderNav/>
+        {useAppSelector(getAuthorizationStatus) !== AuthorizationStatus.Auth
+          ? <NotLogged/>
+          : <Logged/>}
       </Header>
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>

@@ -1,5 +1,5 @@
 import Header from '../../components/header/header';
-import HeaderNav from '../../components/header-nav/header-nav';
+import NotLogged from '../../components/not-logged/not-logged';
 import {Offers} from '../../types/offer';
 import { Reviews } from '../../types/review';
 import {useParams} from 'react-router-dom';
@@ -31,7 +31,7 @@ function PropertyPage(props: PropertyPageProps): JSX.Element {
   return (
     <div className="page">
       <Header>
-        <HeaderNav/>
+        <NotLogged/>
       </Header>
       <main className="page__main page__main--property">
         <section className="property">

@@ -20,7 +20,9 @@ export const getSortedCityOffers = (state: State) => {
   }
 };
 
-export const getIsDataLoaded = (state: State) => state.isDataLoaded;
+export const getIsDataLoading = (state: State) => state.isDataLoading;
+
+export const getAuthorizationStatus = (state: State) => state.authorizationStatus;
 
 export const getGroupedOffers = (state: State) => (
   Object.entries((state.offers).filter((offer) => offer.isFavorite)
@@ -35,4 +37,8 @@ export const getGroupedOffers = (state: State) => (
 
 
 export const getOfferById = (id: number) => (state: State) => (state.offers).find((item) => item.id === id);
+
+export const getUserData = (state: State) => state.userData;
+
+export const getFavoriteOffers = (state: State) => state.offers.filter((offer) => offer.isFavorite);
 

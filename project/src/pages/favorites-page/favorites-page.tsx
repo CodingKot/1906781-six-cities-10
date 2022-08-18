@@ -1,5 +1,5 @@
 import Header from '../../components/header/header';
-import HeaderNav from '../../components/header-nav/header-nav';
+import Logged from '../../components/not-logged/not-logged';
 import {Link} from 'react-router-dom';
 import OffersList from '../../components/offers-list/offers-list';
 import {useAppSelector} from '../../hooks/index';
@@ -13,7 +13,7 @@ function FavoritesPage(): JSX.Element {
   return (
     <div className="page">
       <Header>
-        <HeaderNav/>
+        <Logged/>
       </Header>
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">

@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 import Header from '../../components/header/header';
-import HeaderNav from '../../components/header-nav/header-nav';
+import HeaderNav from '../../components/not-logged/not-logged';
 
 
 function NotFoundPage(): JSX.Element {
