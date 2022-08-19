@@ -105,5 +105,4 @@ export const SORTING_ITEMS = [
   {value: SortingType.TopRated, label: 'Top rated first'},
 ];
 
-export const TIMEOUT_SHOW_ERROR = 5000;
 

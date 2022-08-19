@@ -9,7 +9,7 @@ import {useAppDispatch, useAppSelector} from '../../hooks/index';
 import {changeCity, changeSortingType, resetOffers} from '../../store/action';
 import {getSelectedCityOffers, getSortedCityOffers} from '../../store/selectors';
 import SortingForm from '../../components/sorting-form/sorting-form';
-import { SortingType } from '../../const';
+import {SortingType} from '../../const';
 
 type MainPageProps = {
   cities: Cities;
