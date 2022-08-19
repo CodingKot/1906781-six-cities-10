@@ -50,7 +50,7 @@ export const login = createAsyncThunk<void, AuthData, {
     saveToken(data.token);
     dispatch(loadUserData(data));
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    dispatch(redirectToRoute(AppRoute.Favorites));
+    dispatch(redirectToRoute(AppRoute.Main));
   },
 );
 

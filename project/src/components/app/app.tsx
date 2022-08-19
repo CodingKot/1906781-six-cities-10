@@ -10,8 +10,7 @@ import PrivateRoute from '../private-route/private-route';
 import {Offers, Cities} from '../../types/offer';
 import {Reviews} from '../../types/review';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
-import {isCheckingAuth} from '../../utils/utils';
-import {getAuthorizationStatus, getIsDataLoading} from '../../store/selectors';
+import {getIsDataLoading, getIsCheckingAuth} from '../../store/selectors';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 
@@ -22,10 +21,11 @@ type AppScreenProps = {
 }
 
 function App({cities, reviews, nearbyOffers}: AppScreenProps): JSX.Element {
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const isDataLoading = useAppSelector(getIsDataLoading);
 
-  if(isCheckingAuth(authorizationStatus) || isDataLoading) {
+  const isDataLoading = useAppSelector(getIsDataLoading);
+  const isCheckingAuth = useAppSelector(getIsCheckingAuth);
+
+  if(isCheckingAuth || isDataLoading) {
     return (
       <LoadingScreen/>
     );

@@ -1,6 +1,6 @@
 import {State} from '../types/state';
 import {Offer} from '../types/offer';
-import { SortingType } from '../const';
+import {SortingType, AuthorizationStatus} from '../const';
 import {comparePriceToHigh, comparePriceToLow, compareRatings} from '../utils/utils';
 
 
@@ -41,4 +41,8 @@ export const getOfferById = (id: number) => (state: State) => (state.offers).fin
 export const getUserData = (state: State) => state.userData;
 
 export const getFavoriteOffers = (state: State) => state.offers.filter((offer) => offer.isFavorite);
+
+export const getIsCheckingAuth = (state: State) => state.authorizationStatus === AuthorizationStatus.Unknown;
+
+export const getIsUserAuthorized = (state: State) => state.authorizationStatus === AuthorizationStatus.Auth;
 
