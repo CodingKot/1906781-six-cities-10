@@ -46,3 +46,15 @@ export const getIsCheckingAuth = (state: State) => state.authorizationStatus ===
 
 export const getIsUserAuthorized = (state: State) => state.authorizationStatus === AuthorizationStatus.Auth;
 
+export const getSelectedOffer = (state: State) => state.selectedOffer;
+export const getReviews = (state: State) => state.reviews;
+export const getNearbyOffers = (state: State) => state.nearbyOffers;
+
+export const getPropertyPageOffers = (state: State) => {
+  if(state.selectedOffer && state.nearbyOffers) {
+    return [...state.nearbyOffers, state.selectedOffer];
+  }
+};
+
+export const getIsCommentLoading = (state: State) => state.isCommentLoading;
+

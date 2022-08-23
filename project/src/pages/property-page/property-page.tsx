@@ -1,8 +1,5 @@
 import Header from '../../components/header/header';
 import HeaderNav from '../../components/header-nav/header-nav';
-import {Offers} from '../../types/offer';
-import { Reviews } from '../../types/review';
-import {useParams} from 'react-router-dom';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import CommentsForm from '../../components/comments-form/comments-form';
 import {getRatingPercent} from '../../utils/utils';
@@ -10,23 +7,23 @@ import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
 import {useAppSelector} from '../../hooks/index';
-import {getOfferById} from '../../store/selectors';
+import {getIsUserAuthorized, getSelectedOffer, getReviews, getNearbyOffers, getPropertyPageOffers} from '../../store/selectors';
 
 type PropertyPageProps = {
-  reviews: Reviews;
-  nearbyOffers: Offers;
+  isFormDisabled: boolean;
 }
 
-function PropertyPage(props: PropertyPageProps): JSX.Element {
-  const {reviews, nearbyOffers} = props;
-  const params = useParams();
-  const offer = useAppSelector(getOfferById(Number(params.id)));
+
+function PropertyPage({isFormDisabled}: PropertyPageProps): JSX.Element {
+  const isUserAuthorized = useAppSelector(getIsUserAuthorized);
+  const offer = useAppSelector(getSelectedOffer);
+  const reviews = useAppSelector(getReviews);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const propertyPageOffers = useAppSelector(getPropertyPageOffers);
   if(offer === undefined) {
     return <NotFoundPage/>;
   }
-  const {title, isPremium, type, rating, price, goods, host, images, bedrooms, maxAdults, description} = offer;
-
-  const propertyPageOffers = [...nearbyOffers, offer];
+  const {id, title, isPremium, type, rating, price, goods, host, images, bedrooms, maxAdults, description} = offer;
 
   return (
     <div className="page">
@@ -37,7 +34,7 @@ function PropertyPage(props: PropertyPageProps): JSX.Element {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {images.map((image) => (
+              {images.slice(0,6).map((image) => (
                 <div className="property__image-wrapper" key = {image}>
                   <img className="property__image" src={image} alt="Studio"/>
                 </div>
@@ -116,7 +113,7 @@ function PropertyPage(props: PropertyPageProps): JSX.Element {
               </div>
               <section className="property__reviews reviews">
                 <ReviewsList reviews={reviews}/>
-                <CommentsForm/>
+                {isUserAuthorized && <CommentsForm id={id} isFormDisabled={isFormDisabled}/>}
               </section>
             </div>
           </div>

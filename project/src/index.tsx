@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import {reviews} from './mocks/reviews';
-import {nearbyOffers} from './mocks/nearby-offers';
 import {CITIES} from './const';
 import {Provider} from 'react-redux';
 import {store} from './store';
@@ -24,8 +22,6 @@ root.render(
       <ToastContainer/>
       <App
         cities={CITIES}
-        reviews={reviews}
-        nearbyOffers={nearbyOffers}
       />
     </Provider>
   </React.StrictMode>,

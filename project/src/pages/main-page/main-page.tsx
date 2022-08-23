@@ -27,6 +27,7 @@ function MainPage(props: MainPageProps): JSX.Element {
   const selectedSortingType = useAppSelector((state) => state.selectedSortingType);
   const sortedCityOffers = useAppSelector(getSortedCityOffers);
 
+
   const dispatch = useAppDispatch();
 
   const handleOfferHover = (offer: Offer) => {

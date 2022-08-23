@@ -2,7 +2,8 @@ import {Offer} from '../../types/offer';
 import {generatePath, Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {getRatingPercent} from '../../utils/utils';
-
+import {useAppDispatch} from '../../hooks/index';
+import {fetchSelectedOffer, fetchReviews, fetchNearbyOffers} from '../../store/api-actions';
 
 type CardProps = {
   offer: Offer;
@@ -18,15 +19,24 @@ function Card(props: CardProps): JSX.Element {
   const {offer, onOfferHover, className, classNameWrapper, classNameInfo, imgWidth, imgHeight} = props;
   const{id, title, isPremium, type, rating, price, previewImage, isFavorite} = offer;
   const offerLink = generatePath(AppRoute.Room, {id: `${id}`});
+  const dispatch = useAppDispatch();
 
   return (
-    <article className={`${className} place-card`} onMouseEnter={() => onOfferHover?.(offer)} id = {`${id}`}>
+    <article className={`${className} place-card`} onMouseEnter={() => onOfferHover?.(offer)} id = {`${id}`} onClick = {(evt)=>{
+      evt.preventDefault();
+      dispatch(fetchSelectedOffer(id));
+      dispatch(fetchReviews(id));
+      dispatch(fetchNearbyOffers(id));
+    }}
+    >
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
         </div>)}
       <div className={`${classNameWrapper} place-card__image-wrapper`}>
-        <Link to={offerLink}>
+        <Link
+          to={offerLink}
+        >
           <img className="place-card__image" src={previewImage} width={imgWidth} height={imgHeight} alt="Place"/>
         </Link>
       </div>

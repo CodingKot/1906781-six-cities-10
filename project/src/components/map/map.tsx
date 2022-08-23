@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import useMap from '../../hooks/useMap';
 
 type MapProps = {
-  offers: Offers;
+  offers?: Offers;
   location: Location;
   selectedOffer?: Offer;
   className: string;
@@ -34,7 +34,7 @@ function Map(props: MapProps): JSX.Element {
     if(map) {
       const markersLayer = layerGroup();
       markersLayer.addTo(map);
-      offers.forEach((offer) => {
+      offers?.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
           lng: offer.location.longitude
@@ -50,7 +50,7 @@ function Map(props: MapProps): JSX.Element {
 
 
       return () => {
-        markersLayer.clearLayers();
+        markersLayer.remove();
       };
 
     }
