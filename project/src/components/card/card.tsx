@@ -2,8 +2,7 @@ import {Offer} from '../../types/offer';
 import {generatePath, Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {getRatingPercent} from '../../utils/utils';
-import {useAppDispatch} from '../../hooks/index';
-import {fetchSelectedOffer, fetchReviews, fetchNearbyOffers} from '../../store/api-actions';
+
 
 type CardProps = {
   offer: Offer;
@@ -19,16 +18,9 @@ function Card(props: CardProps): JSX.Element {
   const {offer, onOfferHover, className, classNameWrapper, classNameInfo, imgWidth, imgHeight} = props;
   const{id, title, isPremium, type, rating, price, previewImage, isFavorite} = offer;
   const offerLink = generatePath(AppRoute.Room, {id: `${id}`});
-  const dispatch = useAppDispatch();
 
   return (
-    <article className={`${className} place-card`} onMouseEnter={() => onOfferHover?.(offer)} id = {`${id}`} onClick = {(evt)=>{
-      evt.preventDefault();
-      dispatch(fetchSelectedOffer(id));
-      dispatch(fetchReviews(id));
-      dispatch(fetchNearbyOffers(id));
-    }}
-    >
+    <article className={`${className} place-card`} onMouseEnter={() => onOfferHover?.(offer)} id = {`${id}`}>
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>

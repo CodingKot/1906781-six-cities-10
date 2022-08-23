@@ -22,6 +22,8 @@ export const getSortedCityOffers = (state: State) => {
 
 export const getIsDataLoading = (state: State) => state.isDataLoading;
 
+export const getIsPropertyLoading = (state: State) => state.isPropertyLoading;
+
 export const getAuthorizationStatus = (state: State) => state.authorizationStatus;
 
 export const getGroupedOffers = (state: State) => (
@@ -47,7 +49,9 @@ export const getIsCheckingAuth = (state: State) => state.authorizationStatus ===
 export const getIsUserAuthorized = (state: State) => state.authorizationStatus === AuthorizationStatus.Auth;
 
 export const getSelectedOffer = (state: State) => state.selectedOffer;
+
 export const getReviews = (state: State) => state.reviews;
+
 export const getNearbyOffers = (state: State) => state.nearbyOffers;
 
 export const getPropertyPageOffers = (state: State) => {

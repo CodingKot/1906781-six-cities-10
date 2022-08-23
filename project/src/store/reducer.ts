@@ -1,5 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCity, changeSortingType, resetOffers, loadOffers, setDataLoadingStatus, requireAuthorization, loadUserData, loadSelectedOffer, loadReviews, loadNearbyOffers, setCommentLoadingStatus} from './action';
+import {changeCity, changeSortingType, resetOffers, loadOffers, setDataLoadingStatus, requireAuthorization, loadUserData, setPropertyLoading, loadSelectedOffer, loadReviews, loadNearbyOffers, setCommentLoadingStatus} from './action';
 import {CITIES, SortingType, AuthorizationStatus} from '../const';
 import {City, Offer, Offers} from '../types/offer';
 import { Reviews } from '../types/review';
@@ -13,6 +13,7 @@ type InitialState = {
   isDataLoading: boolean,
   authorizationStatus: AuthorizationStatus;
   userData: UserData | undefined;
+  isPropertyLoading: boolean;
   selectedOffer: Offer | undefined;
   reviews: Reviews | undefined;
   nearbyOffers: Offers | undefined;
@@ -26,6 +27,7 @@ const initialState: InitialState = {
   isDataLoading: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   userData: undefined,
+  isPropertyLoading: false,
   selectedOffer: undefined,
   reviews: undefined,
   nearbyOffers: undefined,
@@ -56,6 +58,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadUserData, (state, action) => {
       state.userData = action.payload;
+    })
+    .addCase(setPropertyLoading, (state, action) => {
+      state.isPropertyLoading = action.payload;
     })
     .addCase(loadSelectedOffer, (state, action) => {
       state.selectedOffer = action.payload;

@@ -1,29 +1,39 @@
 import Header from '../../components/header/header';
 import HeaderNav from '../../components/header-nav/header-nav';
-import NotFoundPage from '../../pages/not-found-page/not-found-page';
-import CommentsForm from '../../components/comments-form/comments-form';
-import {getRatingPercent} from '../../utils/utils';
-import ReviewsList from '../../components/reviews-list/reviews-list';
-import Map from '../../components/map/map';
+import PropertySection from '../../components/property-section/property-section';
 import OffersList from '../../components/offers-list/offers-list';
-import {useAppSelector} from '../../hooks/index';
-import {getIsUserAuthorized, getSelectedOffer, getReviews, getNearbyOffers, getPropertyPageOffers} from '../../store/selectors';
+import {useAppSelector, useAppDispatch} from '../../hooks/index';
+import {getSelectedOffer, getReviews, getNearbyOffers, getPropertyPageOffers, getIsPropertyLoading} from '../../store/selectors';
+import {fetchProperty} from '../../store/api-actions';
+import {useParams} from 'react-router-dom';
+import {useEffect} from 'react';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
+
 
 type PropertyPageProps = {
   isFormDisabled: boolean;
 }
 
-
 function PropertyPage({isFormDisabled}: PropertyPageProps): JSX.Element {
-  const isUserAuthorized = useAppSelector(getIsUserAuthorized);
+  const dispatch = useAppDispatch();
+  const isPropertyLoading = useAppSelector(getIsPropertyLoading);
+  const params = useParams();
   const offer = useAppSelector(getSelectedOffer);
+
+  useEffect(() => {
+    if(typeof offer === undefined || offer?.id !== Number(params.id)) {
+      dispatch(fetchProperty(Number(params.id)));
+    }
+  }, [params.id, offer, dispatch]);
+
   const reviews = useAppSelector(getReviews);
   const nearbyOffers = useAppSelector(getNearbyOffers);
   const propertyPageOffers = useAppSelector(getPropertyPageOffers);
-  if(offer === undefined) {
-    return <NotFoundPage/>;
+  const isProperties = offer && reviews && propertyPageOffers;
+
+  if(isPropertyLoading || !isProperties) {
+    return <LoadingScreen/>;
   }
-  const {id, title, isPremium, type, rating, price, goods, host, images, bedrooms, maxAdults, description} = offer;
 
   return (
     <div className="page">
@@ -31,94 +41,7 @@ function PropertyPage({isFormDisabled}: PropertyPageProps): JSX.Element {
         <HeaderNav/>
       </Header>
       <main className="page__main page__main--property">
-        <section className="property">
-          <div className="property__gallery-container container">
-            <div className="property__gallery">
-              {images.slice(0,6).map((image) => (
-                <div className="property__image-wrapper" key = {image}>
-                  <img className="property__image" src={image} alt="Studio"/>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="property__container container">
-            <div className="property__wrapper">
-              {isPremium && (
-                <div className="place-card__mark">
-                  <span>Premium</span>
-                </div>)}
-              <div className="property__name-wrapper">
-                <h1 className="property__name">
-                  {title}
-                </h1>
-                <button className="property__bookmark-button button" type="button">
-                  <svg className="property__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
-              </div>
-              <div className="property__rating rating">
-                <div className="property__stars rating__stars">
-                  <span style={{
-                    width: getRatingPercent(rating),
-                  }}
-                  >
-                  </span>
-                  <span className="visually-hidden">Rating</span>
-                </div>
-                <span className="property__rating-value rating__value">{rating}</span>
-              </div>
-              <ul className="property__features">
-                <li className="property__feature property__feature--entire">
-                  {type}
-                </li>
-                <li className="property__feature property__feature--bedrooms">
-                  {bedrooms} Bedrooms
-                </li>
-                <li className="property__feature property__feature--adults">
-                  Max {maxAdults} adults
-                </li>
-              </ul>
-              <div className="property__price">
-                <b className="property__price-value">&euro;{price}</b>
-                <span className="property__price-text">&nbsp;night</span>
-              </div>
-              <div className="property__inside">
-                <h2 className="property__inside-title">What&apos;s inside</h2>
-                <ul className="property__inside-list">
-                  {goods.map((good) => (
-                    <li className="property__inside-item" key={good}>
-                      {good}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="property__host">
-                <h2 className="property__host-title">Meet the host</h2>
-                <div className="property__host-user user">
-                  <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src={host.avatarUrl} width="74" height="74" alt="Host avatar"/>
-                  </div>
-                  <span className="property__user-name">
-                    {host.name}
-                  </span>
-                  {host.isPro && (<span className="property__user-status">Pro</span>)}
-                </div>
-                <div className="property__description">
-                  <p className="property__text">
-                    {description}
-                  </p>
-                </div>
-              </div>
-              <section className="property__reviews reviews">
-                <ReviewsList reviews={reviews}/>
-                {isUserAuthorized && <CommentsForm id={id} isFormDisabled={isFormDisabled}/>}
-              </section>
-            </div>
-          </div>
-          <Map className="property__map" offers={propertyPageOffers} location={offer.city.location} selectedOffer = {offer}/>
-        </section>
+        <PropertySection offer={offer} reviews={reviews} isFormDisabled={isFormDisabled} offers={propertyPageOffers}/>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>

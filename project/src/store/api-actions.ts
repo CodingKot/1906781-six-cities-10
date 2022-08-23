@@ -2,7 +2,7 @@ import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state';
 import {Offers} from '../types/offer';
-import {loadOffers, setDataLoadingStatus, requireAuthorization, redirectToRoute, loadUserData, loadSelectedOffer, loadNearbyOffers, loadReviews, setCommentLoadingStatus} from './action';
+import {loadOffers, setDataLoadingStatus, requireAuthorization, redirectToRoute, loadUserData, loadSelectedOffer, loadNearbyOffers, loadReviews, setCommentLoadingStatus, setPropertyLoading} from './action';
 import {APIRoute, AuthorizationStatus, AppRoute} from '../const';
 import {AuthData} from '../types/auth-data';
 import {UserData} from '../types/user-data';
@@ -70,19 +70,6 @@ export const logout = createAsyncThunk<void, undefined, {
   }
 );
 
-export const fetchSelectedOffer = createAsyncThunk<void, number, {
-  dispatch: AppDispatch,
-  state: State,
-  extra: AxiosInstance
-}>(
-  'fetchSelectedOffer',
-  async (_arg, {dispatch, extra: api}) => {
-    dispatch(setDataLoadingStatus(true));
-    const {data} = await api.get(`${APIRoute.Offers}/${_arg}`);
-    dispatch(loadSelectedOffer(data));
-    dispatch(setDataLoadingStatus(false));
-  }
-);
 
 export const fetchReviews = createAsyncThunk<void, number, {
   dispatch: AppDispatch,
@@ -91,10 +78,8 @@ export const fetchReviews = createAsyncThunk<void, number, {
 }>(
   'fetchReviews',
   async (_arg, {dispatch, extra: api}) => {
-    dispatch(setDataLoadingStatus(true));
     const {data} = await api.get(`${APIRoute.Comments}/${_arg}`);
     dispatch(loadReviews(data));
-    dispatch(setDataLoadingStatus(false));
   }
 );
 
@@ -105,10 +90,24 @@ export const fetchNearbyOffers = createAsyncThunk<void, number, {
 }>(
   'fetchNearbyOffers',
   async (_arg, {dispatch, extra: api}) => {
-    dispatch(setDataLoadingStatus(true));
     const {data} = await api.get(`${APIRoute.Offers}/${_arg}/nearby`);
     dispatch(loadNearbyOffers(data));
-    dispatch(setDataLoadingStatus(false));
+  }
+);
+
+export const fetchProperty = createAsyncThunk<void, number, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'fetchSelectedOffer',
+  async (_arg, {dispatch, extra: api}) => {
+    dispatch(setPropertyLoading(true));
+    const {data} = await api.get(`${APIRoute.Offers}/${_arg}`);
+    dispatch(loadSelectedOffer(data));
+    dispatch(fetchReviews(_arg));
+    dispatch(fetchNearbyOffers(_arg));
+    dispatch(setPropertyLoading(false));
   }
 );
 

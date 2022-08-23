@@ -13,6 +13,7 @@ export const setDataLoadingStatus = createAction<boolean>('setDataLoadingStatus'
 export const requireAuthorization = createAction<AuthorizationStatus>('requireAuthorisation');
 export const redirectToRoute = createAction<AppRoute>('redirectToRoute');
 export const loadUserData = createAction<UserData | undefined>('loadUserData');
+export const setPropertyLoading = createAction<boolean>('setPropertyLoading');
 export const loadSelectedOffer = createAction<Offer | undefined>('loadSelectedOffer');
 export const loadReviews = createAction<Reviews | undefined>('loadReviews');
 export const loadNearbyOffers = createAction<Offers | undefined>('loadNearbyOffers');
