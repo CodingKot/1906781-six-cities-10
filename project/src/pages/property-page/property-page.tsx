@@ -35,6 +35,7 @@ function PropertyPage({isFormDisabled}: PropertyPageProps): JSX.Element {
     return <LoadingScreen/>;
   }
 
+
   return (
     <div className="page">
       <Header>

@@ -3,6 +3,7 @@ import {StatusCodes} from 'http-status-codes';
 import {getToken} from './token';
 import {toast} from 'react-toastify';
 
+
 const STATUSES = new Set([StatusCodes.BAD_REQUEST, StatusCodes.UNAUTHORIZED, StatusCodes.NOT_FOUND]);
 
 const shouldDisplayError = (response: AxiosResponse) => STATUSES.has(response.status);

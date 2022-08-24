@@ -102,12 +102,17 @@ export const fetchProperty = createAsyncThunk<void, number, {
 }>(
   'fetchSelectedOffer',
   async (_arg, {dispatch, extra: api}) => {
-    dispatch(setPropertyLoading(true));
-    const {data} = await api.get(`${APIRoute.Offers}/${_arg}`);
-    dispatch(loadSelectedOffer(data));
-    dispatch(fetchReviews(_arg));
-    dispatch(fetchNearbyOffers(_arg));
-    dispatch(setPropertyLoading(false));
+    try {
+      dispatch(setPropertyLoading(true));
+      const {data} = await api.get(`${APIRoute.Offers}/${_arg}`);
+      dispatch(loadSelectedOffer(data));
+      dispatch(fetchReviews(_arg));
+      dispatch(fetchNearbyOffers(_arg));
+      dispatch(setPropertyLoading(false));
+    }
+    catch {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+    }
   }
 );
 
