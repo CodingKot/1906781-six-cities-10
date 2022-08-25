@@ -14,9 +14,9 @@ export const requireAuthorization = createAction<AuthorizationStatus>('requireAu
 export const redirectToRoute = createAction<AppRoute>('redirectToRoute');
 export const loadUserData = createAction<UserData | undefined>('loadUserData');
 export const setPropertyLoading = createAction<boolean>('setPropertyLoading');
-export const loadSelectedOffer = createAction<Offer | undefined>('loadSelectedOffer');
-export const loadReviews = createAction<Reviews | undefined>('loadReviews');
-export const loadNearbyOffers = createAction<Offers | undefined>('loadNearbyOffers');
+export const loadSelectedOffer = createAction<Offer>('loadSelectedOffer');
+export const loadReviews = createAction<Reviews>('loadReviews');
+export const loadNearbyOffers = createAction<Offers>('loadNearbyOffers');
 export const setCommentLoadingStatus = createAction<boolean>('setCommentLoadingStatus');
 
 

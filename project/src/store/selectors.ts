@@ -1,7 +1,7 @@
 import {State} from '../types/state';
 import {Offer} from '../types/offer';
 import {SortingType, AuthorizationStatus} from '../const';
-import {comparePriceToHigh, comparePriceToLow, compareRatings} from '../utils/utils';
+import {comparePriceToHigh, comparePriceToLow, compareRatings, compareDates} from '../utils/utils';
 
 
 export const getSelectedCityOffers = (state: State) => state.offers.filter((item) => item.city.name === state.selectedCity?.name);
@@ -48,17 +48,24 @@ export const getIsCheckingAuth = (state: State) => state.authorizationStatus ===
 
 export const getIsUserAuthorized = (state: State) => state.authorizationStatus === AuthorizationStatus.Auth;
 
-export const getSelectedOffer = (state: State) => state.selectedOffer;
+export const getSelectedOffer = (id: number) => (state: State) => state.offers.find((offer) => offer.id === id);
 
 export const getReviews = (state: State) => state.reviews;
 
-export const getNearbyOffers = (state: State) => state.nearbyOffers;
-
-export const getPropertyPageOffers = (state: State) => {
-  if(state.selectedOffer && state.nearbyOffers) {
-    return [...state.nearbyOffers, state.selectedOffer];
+export const getSortedReviews = (state: State) => {
+  const reviews = [...getReviews(state)];
+  reviews.sort(compareDates);
+  if(reviews.length >= 10) {
+    return reviews.slice(0,10);
   }
+  return reviews;
 };
 
+export const getNearbyOffers = (state: State) => state.nearbyOffers;
+
+export const getPropertyPageOffers = (offer: Offer) => (state: State) => [...state.nearbyOffers, offer];
+
+
 export const getIsCommentLoading = (state: State) => state.isCommentLoading;
+
 

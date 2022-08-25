@@ -3,38 +3,38 @@ import HeaderNav from '../../components/header-nav/header-nav';
 import PropertySection from '../../components/property-section/property-section';
 import OffersList from '../../components/offers-list/offers-list';
 import {useAppSelector, useAppDispatch} from '../../hooks/index';
-import {getSelectedOffer, getReviews, getNearbyOffers, getPropertyPageOffers, getIsPropertyLoading} from '../../store/selectors';
-import {fetchProperty} from '../../store/api-actions';
+import {getSelectedOffer, getSortedReviews, getNearbyOffers, getPropertyPageOffers, getIsPropertyLoading} from '../../store/selectors';
+import {FetchAllProperties, FetchReviewsAndNearbyes} from '../../store/api-actions';
 import {useParams} from 'react-router-dom';
 import {useEffect} from 'react';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
+import {Offer} from '../../types/offer';
 
 
-type PropertyPageProps = {
-  isFormDisabled: boolean;
-}
-
-function PropertyPage({isFormDisabled}: PropertyPageProps): JSX.Element {
+function PropertyPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const isPropertyLoading = useAppSelector(getIsPropertyLoading);
   const params = useParams();
-  const offer = useAppSelector(getSelectedOffer);
+  const offer = useAppSelector(getSelectedOffer(Number(params.id)));
 
   useEffect(() => {
-    if(typeof offer === undefined || offer?.id !== Number(params.id)) {
-      dispatch(fetchProperty(Number(params.id)));
-    }
+    !offer
+      ?
+      dispatch(FetchAllProperties(Number(params.id)))
+      :
+      dispatch(FetchReviewsAndNearbyes(Number(params.id)));
+
   }, [params.id, offer, dispatch]);
 
-  const reviews = useAppSelector(getReviews);
+  const reviews = useAppSelector(getSortedReviews);
   const nearbyOffers = useAppSelector(getNearbyOffers);
-  const propertyPageOffers = useAppSelector(getPropertyPageOffers);
+  const propertyPageOffers = useAppSelector(getPropertyPageOffers(offer as Offer));
+
   const isProperties = offer && reviews && propertyPageOffers;
 
   if(isPropertyLoading || !isProperties) {
     return <LoadingScreen/>;
   }
-
 
   return (
     <div className="page">
@@ -42,7 +42,7 @@ function PropertyPage({isFormDisabled}: PropertyPageProps): JSX.Element {
         <HeaderNav/>
       </Header>
       <main className="page__main page__main--property">
-        <PropertySection offer={offer} reviews={reviews} isFormDisabled={isFormDisabled} offers={propertyPageOffers}/>
+        <PropertySection offer={offer} reviews={reviews} offers={propertyPageOffers}/>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>

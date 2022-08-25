@@ -9,7 +9,7 @@ import {UserData} from '../types/user-data';
 import { dropToken, saveToken } from '../services/token';
 import { NewComment } from '../types/new-comment';
 import { Reviews } from '../types/review';
-
+import {toast} from 'react-toastify';
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
@@ -77,9 +77,16 @@ export const fetchReviews = createAsyncThunk<void, number, {
   extra: AxiosInstance
 }>(
   'fetchReviews',
-  async (_arg, {dispatch, extra: api}) => {
-    const {data} = await api.get(`${APIRoute.Comments}/${_arg}`);
-    dispatch(loadReviews(data));
+  async (id, {dispatch, extra: api}) => {
+    try {
+      const {data} = await api.get(`${APIRoute.Comments}/${id}`);
+      dispatch(setPropertyLoading(true));
+      dispatch(loadReviews(data));
+      dispatch(setPropertyLoading(false));
+    }
+    catch {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+    }
   }
 );
 
@@ -89,30 +96,60 @@ export const fetchNearbyOffers = createAsyncThunk<void, number, {
   extra: AxiosInstance
 }>(
   'fetchNearbyOffers',
-  async (_arg, {dispatch, extra: api}) => {
-    const {data} = await api.get(`${APIRoute.Offers}/${_arg}/nearby`);
-    dispatch(loadNearbyOffers(data));
-  }
-);
-
-export const fetchProperty = createAsyncThunk<void, number, {
-  dispatch: AppDispatch,
-  state: State,
-  extra: AxiosInstance
-}>(
-  'fetchSelectedOffer',
-  async (_arg, {dispatch, extra: api}) => {
+  async (id, {dispatch, extra: api}) => {
     try {
+      const {data} = await api.get(`${APIRoute.Offers}/${id}/nearby`);
       dispatch(setPropertyLoading(true));
-      const {data} = await api.get(`${APIRoute.Offers}/${_arg}`);
-      dispatch(loadSelectedOffer(data));
-      dispatch(fetchReviews(_arg));
-      dispatch(fetchNearbyOffers(_arg));
+      dispatch(loadNearbyOffers(data));
       dispatch(setPropertyLoading(false));
     }
     catch {
       dispatch(redirectToRoute(AppRoute.NotFound));
     }
+  }
+);
+
+export const fetchSelectedOffer = createAsyncThunk<void, number, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'fetchSelectedOffer',
+  async (id, {dispatch, extra: api}) => {
+    try {
+      const {data} = await api.get(`${APIRoute.Offers}/${id}`);
+      dispatch(setPropertyLoading(true));
+      dispatch(loadSelectedOffer(data));
+      dispatch(setPropertyLoading(false));
+    }
+    catch {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+    }
+  }
+);
+
+export const FetchAllProperties = createAsyncThunk<void, number, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'FetchAllProperties',
+  async (id, {dispatch}) => {
+    dispatch(fetchSelectedOffer(id));
+    dispatch(fetchReviews(id));
+    dispatch(fetchNearbyOffers(id));
+  }
+);
+
+export const FetchReviewsAndNearbyes = createAsyncThunk<void, number, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'FetchReviewsAndNearbyes',
+  async (id, {dispatch}) => {
+    dispatch(fetchReviews(id));
+    dispatch(fetchNearbyOffers(id));
   }
 );
 
@@ -123,9 +160,18 @@ export const addComment = createAsyncThunk<void, NewComment, {
 }>(
   'addComment',
   async({id, comment, rating}, {dispatch, extra: api}) => {
-    dispatch(setCommentLoadingStatus(true));
-    const {data} = await api.post<Reviews>(`${APIRoute.Comments}/${id}`, {comment, rating});
-    dispatch(loadReviews(data));
-    dispatch(setCommentLoadingStatus(false));
+    try {
+      dispatch(setCommentLoadingStatus(true));
+      const {data} = await api.post<Reviews>(`${APIRoute.Comments}/${id}`, {comment, rating});
+      dispatch(loadReviews(data));
+      dispatch(setCommentLoadingStatus(false));
+    }
+
+    catch {
+      dispatch(setCommentLoadingStatus(false));
+      toast.warn('Sorry, failed to load new comment', {
+        position: toast.POSITION.TOP_CENTER
+      });
+    }
   },
 );

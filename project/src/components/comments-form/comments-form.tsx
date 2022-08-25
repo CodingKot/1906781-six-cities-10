@@ -1,55 +1,58 @@
-import React, {useState, ChangeEvent} from 'react';
+import React, {useState, ChangeEvent, FormEvent} from 'react';
 import {RATING_MARKS} from '../../const';
-import {NewComment} from '../../types/new-comment';
 import {addComment} from '../../store/api-actions';
-import {useAppDispatch} from '../../hooks/index';
-import {useRef} from 'react';
+import {useAppDispatch, useAppSelector} from '../../hooks/index';
+import {getIsCommentLoading} from '../../store/selectors';
 
 type FormProps = {
   id: number;
-  isFormDisabled: boolean;
 }
 
-function CommentsForm({id, isFormDisabled}: FormProps): JSX.Element {
+function CommentsForm({id}: FormProps): JSX.Element {
+  const isCommentLoading = useAppSelector(getIsCommentLoading);
 
-  const formRef = useRef<HTMLFormElement | null>(null);
-
-  const [formData, setFormData] = useState<NewComment>({
-    id: id,
-    comment: '',
-    rating: undefined,
-  });
-
-  const [isButtonDisabled, setButtonDisabled] = useState(true);
+  const [comment, setComment] = useState<string>('');
+  const [rating, setRating] = useState<number|undefined>(undefined);
 
 
-  const handleChange = ({target}: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const {name, value} = target;
-    setFormData({...formData, [name]: value});
-    if(formData.comment && formData.comment.length >= 50 && formData.comment.length <= 300 && formData.rating !== undefined) {
-      setButtonDisabled(false);
-    } else {
-      setButtonDisabled(true);
-    }
+  const [isSubmitButtonDisabled, setSubmitButtonDisabled] = useState(true);
+
+  const checkDisabled = () => {
+    const disabled = comment.length < 50 || comment.length > 300 || !rating;
+    setSubmitButtonDisabled(disabled);
+  };
+
+  const handleRatingChange = ({target}: ChangeEvent<HTMLInputElement>) => {
+    setRating(Number(target.value));
+    checkDisabled();
+  };
+
+  const handleCommentChange = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
+    setComment(target.value);
+    checkDisabled();
   };
 
   const dispatch = useAppDispatch();
 
+  const resetForm = () => {
+    setComment('');
+    setRating(undefined);
+  };
+
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    dispatch(addComment({id: id, comment: comment, rating: rating}));
+    resetForm();
+  };
+
   return (
-    <form className="reviews__form form" action="#" method="post" ref={formRef} onSubmit={(evt)=> {
-      evt.preventDefault();
-      dispatch(addComment(formData));
-      if(formRef.current !== null) {
-        formRef.current.reset();
-      }
-    }}
-    >
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {RATING_MARKS.map((rating) => (
-          <React.Fragment key={`${rating.mark}-stars`}>
-            <input className="form__rating-input visually-hidden" value={rating.mark} name="rating" id={`${rating.mark}-stars`} type="radio" required onChange={handleChange} disabled={isFormDisabled}/>
-            <label htmlFor={`${rating.mark}-stars`} className="reviews__rating-label form__rating-label" title={rating.emotion}>
+        {RATING_MARKS.map((ratingItem) => (
+          <React.Fragment key={`${ratingItem.mark}-stars`}>
+            <input className="form__rating-input visually-hidden" value={ratingItem.mark} name="rating" id={`${ratingItem.mark}-stars`} type="radio" required onChange={handleRatingChange} disabled={isCommentLoading} checked={ratingItem.mark === rating}/>
+            <label htmlFor={`${ratingItem.mark}-stars`} className="reviews__rating-label form__rating-label" title={ratingItem.emotion}>
               <svg className="form__star-image" width="37" height="33">
                 <use xlinkHref="#icon-star"></use>
               </svg>
@@ -58,12 +61,12 @@ function CommentsForm({id, isFormDisabled}: FormProps): JSX.Element {
         )
         )}
       </div>
-      <textarea className="reviews__textarea form__textarea" id="review" name = "comment" placeholder="Tell how was your stay, what you like and what can be improved" required minLength={50} maxLength={300} onChange={handleChange} disabled={isFormDisabled}></textarea>
+      <textarea className="reviews__textarea form__textarea" id="review" name = "comment" placeholder="Tell how was your stay, what you like and what can be improved" required minLength={50} maxLength={300} onChange={handleCommentChange} disabled={isCommentLoading} value={comment}></textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={isButtonDisabled || isFormDisabled}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={isSubmitButtonDisabled || isCommentLoading}>Submit</button>
       </div>
     </form>
   );

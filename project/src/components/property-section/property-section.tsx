@@ -11,19 +11,23 @@ import {getIsUserAuthorized} from '../../store/selectors';
 type PropertySectionProps = {
   offer: Offer;
   reviews: Reviews;
-  offers: Offers;
-  isFormDisabled: boolean;
+  offers?: Offers;
 }
 
-function PropertySection({offer, reviews, offers, isFormDisabled}: PropertySectionProps): JSX.Element {
+function PropertySection({offer, reviews, offers}: PropertySectionProps): JSX.Element {
   const {id, title, isPremium, type, rating, price, goods, host, images, bedrooms, maxAdults, description, city} = offer;
   const isUserAuthorized = useAppSelector(getIsUserAuthorized);
-
+  const getImages = (pictures: string[]) => {
+    if(pictures.length >= 6) {
+      return pictures.slice(0,6);
+    }
+    return pictures;
+  };
   return (
     <section className="property">
       <div className="property__gallery-container container">
         <div className="property__gallery">
-          {images.slice(0,6).map((image) => (
+          {getImages(images).slice(0,6).map((image) => (
             <div className="property__image-wrapper" key = {image}>
               <img className="property__image" src={image} alt="Studio"/>
             </div>
@@ -103,11 +107,11 @@ function PropertySection({offer, reviews, offers, isFormDisabled}: PropertySecti
           </div>
           <section className="property__reviews reviews">
             <ReviewsList reviews={reviews}/>
-            {isUserAuthorized && <CommentsForm id={id} isFormDisabled={isFormDisabled}/>}
+            {isUserAuthorized && <CommentsForm id={id}/>}
           </section>
         </div>
       </div>
-      {offer && <Map className="property__map" offers={offers} location={city.location} selectedOffer = {offer}/>}
+      <Map className="property__map" offers={offers} location={city.location} selectedOffer = {offer}/>
     </section>
   );
 }
