@@ -26,7 +26,9 @@ function Card(props: CardProps): JSX.Element {
           <span>Premium</span>
         </div>)}
       <div className={`${classNameWrapper} place-card__image-wrapper`}>
-        <Link to={offerLink}>
+        <Link
+          to={offerLink}
+        >
           <img className="place-card__image" src={previewImage} width={imgWidth} height={imgHeight} alt="Place"/>
         </Link>
       </div>

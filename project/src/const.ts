@@ -3,12 +3,14 @@ export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Room = '/offer/:id',
+  NotFound = '*',
 }
 
 export enum APIRoute {
   Offers = '/hotels',
   Login = '/login',
   Logout = '/logout',
+  Comments = '/comments',
 }
 
 export enum AuthorizationStatus {
@@ -23,7 +25,7 @@ export const CITIES = [
     location: {
       latitude: 48.8534,
       longitude: 2.3488,
-      zoom: 10,
+      zoom: 13,
     }
   },
   {
@@ -31,7 +33,7 @@ export const CITIES = [
     location: {
       latitude: 50.93753,
       longitude: 6.96028,
-      zoom: 10,
+      zoom: 13,
     }
   },
   {
@@ -39,7 +41,7 @@ export const CITIES = [
     location: {
       latitude: 50.8504,
       longitude: 4.34878,
-      zoom: 10,
+      zoom: 13,
     }
   },
   {
@@ -47,7 +49,7 @@ export const CITIES = [
     location: {
       latitude: 52.370216,
       longitude: 4.895168,
-      zoom: 10,
+      zoom: 13,
     }
   },
   {
@@ -55,7 +57,7 @@ export const CITIES = [
     location: {
       latitude: 53.5753,
       longitude: 10.0153,
-      zoom: 10,
+      zoom: 13,
     }
   },
   {
@@ -63,7 +65,7 @@ export const CITIES = [
     location: {
       latitude: 	51.2217,
       longitude: 6.77616,
-      zoom: 10,
+      zoom: 13,
     }
   },
 ];
