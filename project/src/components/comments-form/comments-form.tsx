@@ -1,8 +1,8 @@
-import React, {useState, ChangeEvent, FormEvent} from 'react';
+import React, {useState, ChangeEvent, FormEvent, useEffect} from 'react';
 import {RATING_MARKS} from '../../const';
 import {addComment} from '../../store/api-actions';
 import {useAppDispatch, useAppSelector} from '../../hooks/index';
-import {getIsCommentLoading} from '../../store/selectors';
+import {getIsCommentLoading, getReviews} from '../../store/selectors';
 
 type FormProps = {
   id: number;
@@ -10,10 +10,18 @@ type FormProps = {
 
 function CommentsForm({id}: FormProps): JSX.Element {
   const isCommentLoading = useAppSelector(getIsCommentLoading);
-
+  const reviews = useAppSelector(getReviews);
   const [comment, setComment] = useState<string>('');
   const [rating, setRating] = useState<number|undefined>(undefined);
 
+  const resetForm = () => {
+    setComment('');
+    setRating(undefined);
+  };
+
+  useEffect(() => {
+    resetForm();
+  }, [reviews]);
 
   const [isSubmitButtonDisabled, setSubmitButtonDisabled] = useState(true);
 
@@ -34,15 +42,9 @@ function CommentsForm({id}: FormProps): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const resetForm = () => {
-    setComment('');
-    setRating(undefined);
-  };
-
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch(addComment({id: id, comment: comment, rating: rating}));
-    resetForm();
   };
 
   return (
