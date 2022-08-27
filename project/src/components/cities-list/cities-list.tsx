@@ -1,7 +1,6 @@
 import {Cities, City} from '../../types/offer';
 import {Link} from 'react-router-dom';
 
-
 type CitiesListProps = {
   cities: Cities;
   selectedCity?: City;

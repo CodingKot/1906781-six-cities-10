@@ -1,11 +1,11 @@
 import Header from '../../components/header/header';
-import {Link} from 'react-router-dom';
+import {Link, generatePath,} from 'react-router-dom';
 import {useRef, FormEvent} from 'react';
 import {useAppDispatch} from '../../hooks';
 import {AuthData} from '../../types/auth-data';
 import {login} from '../../store/api-actions';
 import {getRandomCity} from '../../utils/utils';
-import {CITIES} from '../../const';
+import {CITIES, AppRoute} from '../../const';
 import {changeCity} from '../../store/action';
 
 function LoginPage(): JSX.Element {
@@ -52,8 +52,8 @@ function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to="/" onClick={() => {
-                dispatch(changeCity({city}));
+              <Link className="locations__item-link" to={generatePath(AppRoute.Main, {id: city.name})} onClick={() => {
+                dispatch(changeCity(city));
               }}
               >
                 <span>{city.name}</span>

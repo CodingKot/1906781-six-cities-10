@@ -1,5 +1,6 @@
 import {Link} from 'react-router-dom';
 
+
 function Logo(): JSX.Element {
   return (
     <div className="header__left">

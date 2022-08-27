@@ -3,7 +3,7 @@ export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Room = '/offer/:id',
-  NotFound = '*',
+  NotFound = '/404',
 }
 
 export enum APIRoute {
@@ -17,6 +17,29 @@ export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
+}
+
+export enum SortingType {
+  Populap = 'Popular',
+  PriceToHigh = 'Price: low to high',
+  PriceToLow = 'Price: high to low',
+  TopRated = 'Top rated first',
+}
+
+export enum NameSpace {
+  User = 'USER',
+  Property = 'PROPERTY',
+  Offers = 'OFFERS',
+}
+
+export const enum CityName {
+  Paris = 'Paris',
+  Cologne = 'Cologne',
+  Brussels = 'Brussels',
+  Amsterdam = 'Amsterdam',
+  Hamburg = 'Hamburg',
+  Dusseldorf = 'Dusseldorf',
+
 }
 
 export const CITIES = [
@@ -93,18 +116,15 @@ export const RATING_MARKS = [
   }
 ];
 
-export enum SortingType {
-  Populap = 'Popular',
-  PriceToHigh = 'Price: low to high',
-  PriceToLow = 'Price: high to low',
-  TopRated = 'Top rated first',
-}
-
 export const SORTING_ITEMS = [
   {value: SortingType.Populap, label: 'Popular' },
   {value: SortingType.PriceToHigh, label: 'Price: low to high'},
   {value: SortingType.PriceToLow, label: 'Price: high to low'},
   {value: SortingType.TopRated, label: 'Top rated first'},
 ];
+
+export const PICTURES_MAX_NUMBER = 6;
+export const REVIEWS_MAX_NUMBER = 10;
+export const DEFAULT_CITY_NAME = 'Paris';
 
 

@@ -1,9 +1,9 @@
 
-type MainEmptyProps = {
+type OffersListEmptyProps = {
   city: string;
 }
 
-function MainEmpty({city}: MainEmptyProps): JSX.Element {
+function OffersListEmpty({city}: OffersListEmptyProps): JSX.Element {
   return (
     <div className="cities">
       <div className="cities__places-container cities__places-container--empty container">
@@ -25,4 +25,4 @@ function MainEmpty({city}: MainEmptyProps): JSX.Element {
   );
 }
 
-export default MainEmpty;
+export default OffersListEmpty;

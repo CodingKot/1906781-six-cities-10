@@ -3,11 +3,11 @@ import {AppRoute} from '../../const';
 import {useAppSelector} from '../../hooks';
 import {getIsUserAuthorized} from '../../store/selectors';
 
-type PrivateRouteProps = {
+type PrivateRouteFavoritesProps = {
   children: JSX.Element;
 }
 
-function PrivateRoute(props: PrivateRouteProps): JSX.Element {
+function PrivateRouteFavorites(props: PrivateRouteFavoritesProps): JSX.Element {
   const {children} = props;
   const isUserAuthorized = useAppSelector(getIsUserAuthorized);
 
@@ -18,4 +18,4 @@ function PrivateRoute(props: PrivateRouteProps): JSX.Element {
   );
 }
 
-export default PrivateRoute;
+export default PrivateRouteFavorites;
