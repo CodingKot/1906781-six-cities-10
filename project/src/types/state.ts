@@ -1,6 +1,6 @@
 import {store} from '../store/index.js';
 import {AuthorizationStatus, SortingType} from '../const';
-import {City, Offers} from './offer';
+import {City, Offers, Offer} from './offer';
 import {UserData} from './user-data';
 import {Reviews} from './review';
 
@@ -15,6 +15,9 @@ export type OffersProcess = {
   selectedSortingType: SortingType,
   offers: Offers,
   isDataLoading: boolean,
+  favorites: Offers,
+  processingOffer: Offer | undefined,
+  isFavoritesLoading: boolean,
 }
 
 export type PropertyProcess = {
@@ -24,6 +27,7 @@ export type PropertyProcess = {
   isCommentLoading: boolean;
   sentCommentsNumber: number;
 }
+
 
 export type State = ReturnType<typeof store.getState>;
 

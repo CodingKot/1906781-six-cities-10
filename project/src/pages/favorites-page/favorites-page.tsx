@@ -1,15 +1,16 @@
 import Header from '../../components/header/header';
 import HeaderNav from '../../components/header-nav/header-nav';
 import {Link} from 'react-router-dom';
-import OffersList from '../../components/offers-list/offers-list';
 import {useAppSelector} from '../../hooks/index';
-import {getGroupedOffers, getFavoriteOffers} from '../../store/selectors';
+import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
+import FavoritesSection from '../../components/favorites-section/favorites-section';
+import {getFavorites} from '../../store/selectors';
 
 
 function FavoritesPage(): JSX.Element {
 
-  const groupedOffers = useAppSelector(getGroupedOffers);
-  const favorites = useAppSelector(getFavoriteOffers);
+  const favorites = useAppSelector(getFavorites);
+
 
   return (
     <div className="page">
@@ -21,39 +22,9 @@ function FavoritesPage(): JSX.Element {
           {
             favorites.length === 0
               ?
-              <section className="favorites favorites--empty">
-                <h1 className="visually-hidden">Favorites (empty)</h1>
-                <div className="favorites__status-wrapper">
-                  <b className="favorites__status">Nothing yet saved.</b>
-                  <p className="favorites__status-description">Save properties to narrow down search or plan your future trips.</p>
-                </div>
-              </section>
+              <FavoritesEmpty/>
               :
-              <section className="favorites">
-                <h1 className="favorites__title">Saved listing</h1>
-                <ul className="favorites__list">
-                  {groupedOffers.map(([city, cityOffers]) => (
-                    <li className="favorites__locations-items" key={city}>
-                      <div className="favorites__locations locations locations--current">
-                        <div className="locations__item">
-                          <Link className="locations__item-link" to="/">
-                            <span>{city}</span>
-                          </Link>
-                        </div>
-                      </div>
-
-                      <OffersList offers={cityOffers}
-                        className="favorites__places"
-                        classNameForCard="favorites__card"
-                        classNameWrapper="favorites__image-wrapper"
-                        classNameInfo="favorites__card-info"
-                        imgHeight="110"
-                        imgWidth="150"
-                      />
-                    </li>
-                  ))}
-                </ul>
-              </section>
+              <FavoritesSection/>
           }
         </div>
       </main>

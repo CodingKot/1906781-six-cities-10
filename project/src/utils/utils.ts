@@ -1,4 +1,4 @@
-import {Offer, City} from '../types/offer';
+import {Offer, City, Offers} from '../types/offer';
 import { Review } from '../types/review';
 import { AuthorizationStatus } from '../const';
 
@@ -21,3 +21,12 @@ const getRandomInteger = (a = 0, b = 1) => {
 };
 
 export const getRandomCity = (cities: City[]) => cities[getRandomInteger(0, cities.length - 1)];
+
+export const updateItem = (items: Offers, newItem: Offer) => {
+  const index = items.findIndex((item) => item.id === newItem?.id );
+  items = [...items.slice(0, index),
+    newItem,
+    ...items.slice(index + 1)];
+  return items;
+};
+

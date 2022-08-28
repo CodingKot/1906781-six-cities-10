@@ -8,7 +8,6 @@ type FormProps = {
   id: number;
 }
 
-
 function CommentsForm({id}: FormProps): JSX.Element {
   const isCommentLoading = useAppSelector(getIsCommentLoading);
   const [comment, setComment] = useState<string>('');

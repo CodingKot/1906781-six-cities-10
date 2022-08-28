@@ -18,17 +18,12 @@ type PropertySectionProps = {
 function PropertySection({offer, reviews, offers}: PropertySectionProps): JSX.Element {
   const {id, title, isPremium, type, rating, price, goods, host, images, bedrooms, maxAdults, description, city} = offer;
   const isUserAuthorized = useAppSelector(getIsUserAuthorized);
-  const getImages = (pictures: string[]) => {
-    if(pictures.length >= PICTURES_MAX_NUMBER) {
-      return pictures.slice(0,PICTURES_MAX_NUMBER);
-    }
-    return pictures;
-  };
+
   return (
     <section className="property">
       <div className="property__gallery-container container">
         <div className="property__gallery">
-          {getImages(images).map((image) => (
+          {images.slice(0,PICTURES_MAX_NUMBER).map((image) => (
             <div className="property__image-wrapper" key = {image}>
               <img className="property__image" src={image} alt="Studio"/>
             </div>

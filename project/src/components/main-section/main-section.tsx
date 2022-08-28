@@ -5,9 +5,9 @@ import {useState} from 'react';
 import CitiesList from '../../components/cities-list/cities-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/index';
 import {changeCity, changeSortingType, resetOffers} from '../../store/action';
-import {sortOffers, filterOffers} from '../../store/selectors';
+import {sortOffers, filterOffers, getSelectedSortingType, getSelectedCity} from '../../store/selectors';
 import SortingForm from '../../components/sorting-form/sorting-form';
-import {SortingType, NameSpace} from '../../const';
+import {SortingType} from '../../const';
 import OffersListEmpty from '../offers-list-empty/offers-list-empty';
 
 type MainSectionProps = {
@@ -21,9 +21,9 @@ function MainSection(props: MainSectionProps): JSX.Element {
     undefined
   );
 
-  const selectedCity = useAppSelector((state) => state[NameSpace.Offers].selectedCity);
+  const selectedCity = useAppSelector(getSelectedCity);
   const cityOffers = useAppSelector(filterOffers);
-  const selectedSortingType = useAppSelector((state) => state[NameSpace.Offers].selectedSortingType);
+  const selectedSortingType = useAppSelector(getSelectedSortingType);
   const sortedCityOffers = useAppSelector(sortOffers);
 
   const dispatch = useAppDispatch();
