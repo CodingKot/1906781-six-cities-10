@@ -1,33 +1,62 @@
 import {State} from '../types/state';
 import {Offer} from '../types/offer';
-import {SortingType, AuthorizationStatus} from '../const';
+import {SortingType, AuthorizationStatus, REVIEWS_MAX_NUMBER, NameSpace, CityName } from '../const';
 import {comparePriceToHigh, comparePriceToLow, compareRatings, compareDates} from '../utils/utils';
+import {createSelector} from '@reduxjs/toolkit';
 
+const getOffers = (state: State) => state[NameSpace.Offers].offers;
 
-export const getSelectedCityOffers = (state: State) => state.offers.filter((item) => item.city.name === state.selectedCity?.name);
+const getSelectedCity = (state:State) => state[NameSpace.Offers].selectedCity;
 
-export const getSortedCityOffers = (state: State) => {
-  const offers = getSelectedCityOffers(state);
-  switch (state.selectedSortingType) {
-    case SortingType.Populap:
-      return offers;
-    case SortingType.PriceToHigh:
-      return offers.sort(comparePriceToHigh);
-    case SortingType.PriceToLow:
-      return offers.sort(comparePriceToLow);
-    case SortingType.TopRated:
-      return offers.sort(compareRatings);
+export const getSelectedSortingType = (state: State) => state[NameSpace.Offers].selectedSortingType;
+
+export const filterOffers = createSelector(
+  [getOffers, getSelectedCity],
+  (offers, city) => {
+    switch(city.name){
+      case CityName.Paris:
+        return offers.filter((offer) => offer.city.name === CityName.Paris);
+      case CityName.Amsterdam:
+        return offers.filter((offer) => offer.city.name === CityName.Amsterdam);
+      case CityName.Brussels:
+        return offers.filter((offer) => offer.city.name === CityName.Brussels);
+      case CityName.Cologne:
+        return offers.filter((offer) => offer.city.name === CityName.Cologne);
+      case CityName.Hamburg:
+        return offers.filter((offer) => offer.city.name === CityName.Hamburg);
+      case CityName.Dusseldorf:
+        return offers.filter((offer) => offer.city.name === CityName.Dusseldorf);
+    }
   }
-};
+);
 
-export const getIsDataLoading = (state: State) => state.isDataLoading;
+export const sortOffers = createSelector(
+  [filterOffers, getSelectedSortingType],
+  (offers, type) => {
+    if(offers) {
+      const sortedOffers = [...offers];
+      switch (type) {
+        case SortingType.Populap:
+          return offers;
+        case SortingType.PriceToHigh:
+          return sortedOffers.sort(comparePriceToHigh);
+        case SortingType.PriceToLow:
+          return sortedOffers.sort(comparePriceToLow);
+        case SortingType.TopRated:
+          return sortedOffers.sort(compareRatings);
+      }
+    }
+  }
+);
 
-export const getIsPropertyLoading = (state: State) => state.isPropertyLoading;
+export const getIsDataLoading = (state: State):boolean => state[NameSpace.Offers].isDataLoading;
 
-export const getAuthorizationStatus = (state: State) => state.authorizationStatus;
+export const getIsPropertyLoading = (state: State) => state[NameSpace.Property].isPropertyLoading;
+
+export const getAuthorizationStatus = (state: State) => state[NameSpace.User].authorizationStatus;
 
 export const getGroupedOffers = (state: State) => (
-  Object.entries((state.offers).filter((offer) => offer.isFavorite)
+  Object.entries((state[NameSpace.Offers].offers).filter((offer) => offer.isFavorite)
     .reduce((group: {[key: string]: Offer[]}, offer) => {
       const {city} = offer;
       group[city.name] = group[city.name] ?? [];
@@ -37,35 +66,33 @@ export const getGroupedOffers = (state: State) => (
     {})
   ));
 
+export const getOfferById = (id: number) => (state: State) => (state[NameSpace.Offers].offers).find((item: Offer) => item.id === id);
 
-export const getOfferById = (id: number) => (state: State) => (state.offers).find((item) => item.id === id);
+export const getUserData = (state: State) => state[NameSpace.User].userData;
 
-export const getUserData = (state: State) => state.userData;
+export const getFavoriteOffers = (state: State) => state[NameSpace.Offers].offers.filter((offer) => offer.isFavorite);
 
-export const getFavoriteOffers = (state: State) => state.offers.filter((offer) => offer.isFavorite);
+export const getIsCheckingAuth = (state: State) => state[NameSpace.User].authorizationStatus === AuthorizationStatus.Unknown;
 
-export const getIsCheckingAuth = (state: State) => state.authorizationStatus === AuthorizationStatus.Unknown;
+export const getIsUserAuthorized = (state: State) => state[NameSpace.User].authorizationStatus === AuthorizationStatus.Auth;
 
-export const getIsUserAuthorized = (state: State) => state.authorizationStatus === AuthorizationStatus.Auth;
+export const getSelectedOffer = (id: number) => (state: State) => state[NameSpace.Offers].offers.find((offer) => offer.id === id);
 
-export const getSelectedOffer = (id: number) => (state: State) => state.offers.find((offer) => offer.id === id);
-
-export const getReviews = (state: State) => state.reviews;
+export const getReviews = (state: State) => state[NameSpace.Property].reviews;
 
 export const getSortedReviews = (state: State) => {
-  const reviews = [...getReviews(state)];
-  reviews.sort(compareDates);
-  if(reviews.length >= 10) {
-    return reviews.slice(0,10);
+  const reviews = getReviews(state);
+  const sortedReviews = [...reviews];
+  sortedReviews.sort(compareDates);
+  if(reviews.length >= REVIEWS_MAX_NUMBER) {
+    return reviews.slice(0,REVIEWS_MAX_NUMBER);
   }
-  return reviews;
+  return sortedReviews;
 };
 
-export const getNearbyOffers = (state: State) => state.nearbyOffers;
+export const getNearbyOffers = (state: State) => state[NameSpace.Property].nearbyOffers;
 
-export const getPropertyPageOffers = (offer: Offer) => (state: State) => [...state.nearbyOffers, offer];
+export const getIsCommentLoading = (state: State) => state[NameSpace.Property].isCommentLoading;
 
-
-export const getIsCommentLoading = (state: State) => state.isCommentLoading;
-
+export const getNewCommentsNumber = (state: State) => state[NameSpace.Property].sentCommentsNumber;
 

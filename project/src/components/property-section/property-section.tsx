@@ -6,6 +6,7 @@ import {getRatingPercent} from '../../utils/utils';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import {useAppSelector} from '../../hooks/index';
 import {getIsUserAuthorized} from '../../store/selectors';
+import {PICTURES_MAX_NUMBER} from '../../const';
 
 
 type PropertySectionProps = {
@@ -18,8 +19,8 @@ function PropertySection({offer, reviews, offers}: PropertySectionProps): JSX.El
   const {id, title, isPremium, type, rating, price, goods, host, images, bedrooms, maxAdults, description, city} = offer;
   const isUserAuthorized = useAppSelector(getIsUserAuthorized);
   const getImages = (pictures: string[]) => {
-    if(pictures.length >= 6) {
-      return pictures.slice(0,6);
+    if(pictures.length >= PICTURES_MAX_NUMBER) {
+      return pictures.slice(0,PICTURES_MAX_NUMBER);
     }
     return pictures;
   };
@@ -27,7 +28,7 @@ function PropertySection({offer, reviews, offers}: PropertySectionProps): JSX.El
     <section className="property">
       <div className="property__gallery-container container">
         <div className="property__gallery">
-          {getImages(images).slice(0,6).map((image) => (
+          {getImages(images).map((image) => (
             <div className="property__image-wrapper" key = {image}>
               <img className="property__image" src={image} alt="Studio"/>
             </div>

@@ -4,7 +4,7 @@ import {getToken} from './token';
 import {toast} from 'react-toastify';
 
 
-const STATUSES = new Set([StatusCodes.BAD_REQUEST, StatusCodes.UNAUTHORIZED, StatusCodes.NOT_FOUND]);
+const STATUSES = new Set([StatusCodes.BAD_REQUEST, StatusCodes.SERVICE_UNAVAILABLE]);
 
 const shouldDisplayError = (response: AxiosResponse) => STATUSES.has(response.status);
 

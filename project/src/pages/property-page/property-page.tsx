@@ -3,12 +3,11 @@ import HeaderNav from '../../components/header-nav/header-nav';
 import PropertySection from '../../components/property-section/property-section';
 import OffersList from '../../components/offers-list/offers-list';
 import {useAppSelector, useAppDispatch} from '../../hooks/index';
-import {getSelectedOffer, getSortedReviews, getNearbyOffers, getPropertyPageOffers, getIsPropertyLoading} from '../../store/selectors';
-import {FetchAllProperties, FetchReviewsAndNearbyes} from '../../store/api-actions';
+import {getSelectedOffer, getSortedReviews, getNearbyOffers, getIsPropertyLoading} from '../../store/selectors';
+import {fetchNearbyOffers, fetchSelectedOffer, fetchReviews} from '../../store/api-actions';
 import {useParams} from 'react-router-dom';
 import {useEffect} from 'react';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
-import {Offer} from '../../types/offer';
 
 
 function PropertyPage(): JSX.Element {
@@ -18,19 +17,17 @@ function PropertyPage(): JSX.Element {
   const offer = useAppSelector(getSelectedOffer(Number(params.id)));
 
   useEffect(() => {
-    !offer
-      ?
-      dispatch(FetchAllProperties(Number(params.id)))
-      :
-      dispatch(FetchReviewsAndNearbyes(Number(params.id)));
+    if (!offer) {
+      dispatch(fetchSelectedOffer(Number(params.id)));
+    }
+    dispatch(fetchReviews(Number(params.id)));
+    dispatch(fetchNearbyOffers(Number(params.id)));
 
   }, [params.id, offer, dispatch]);
 
   const reviews = useAppSelector(getSortedReviews);
   const nearbyOffers = useAppSelector(getNearbyOffers);
-  const propertyPageOffers = useAppSelector(getPropertyPageOffers(offer as Offer));
-
-  const isProperties = offer && reviews && propertyPageOffers;
+  const isProperties = offer && reviews;
 
   if(isPropertyLoading || !isProperties) {
     return <LoadingScreen/>;
@@ -42,7 +39,7 @@ function PropertyPage(): JSX.Element {
         <HeaderNav/>
       </Header>
       <main className="page__main page__main--property">
-        <PropertySection offer={offer} reviews={reviews} offers={propertyPageOffers}/>
+        <PropertySection offer={offer} reviews={reviews} offers={[...nearbyOffers, offer]}/>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>

@@ -2,17 +2,18 @@ import React, {useState, ChangeEvent, FormEvent, useEffect} from 'react';
 import {RATING_MARKS} from '../../const';
 import {addComment} from '../../store/api-actions';
 import {useAppDispatch, useAppSelector} from '../../hooks/index';
-import {getIsCommentLoading, getReviews} from '../../store/selectors';
+import {getIsCommentLoading, getNewCommentsNumber} from '../../store/selectors';
 
 type FormProps = {
   id: number;
 }
 
+
 function CommentsForm({id}: FormProps): JSX.Element {
   const isCommentLoading = useAppSelector(getIsCommentLoading);
-  const reviews = useAppSelector(getReviews);
   const [comment, setComment] = useState<string>('');
-  const [rating, setRating] = useState<number|undefined>(undefined);
+  const [rating, setRating] = useState<number | undefined>(undefined);
+  const newCommentsNumber = useAppSelector(getNewCommentsNumber);
 
   const resetForm = () => {
     setComment('');
@@ -21,30 +22,30 @@ function CommentsForm({id}: FormProps): JSX.Element {
 
   useEffect(() => {
     resetForm();
-  }, [reviews]);
+  }, [newCommentsNumber]);
 
   const [isSubmitButtonDisabled, setSubmitButtonDisabled] = useState(true);
 
-  const checkDisabled = () => {
-    const disabled = comment.length < 50 || comment.length > 300 || !rating;
+  const checkDisabled = (text: string, stars?: number) => {
+    const disabled = text.length < 50 || text.length > 300 || !stars;
     setSubmitButtonDisabled(disabled);
   };
 
   const handleRatingChange = ({target}: ChangeEvent<HTMLInputElement>) => {
     setRating(Number(target.value));
-    checkDisabled();
+    checkDisabled(comment, Number(target.value));
   };
 
   const handleCommentChange = ({target}: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(target.value);
-    checkDisabled();
+    checkDisabled(target.value, rating);
   };
 
   const dispatch = useAppDispatch();
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(addComment({id: id, comment: comment, rating: rating}));
+    dispatch(addComment({id, comment, rating}));
   };
 
   return (
