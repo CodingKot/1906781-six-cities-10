@@ -1,15 +1,18 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace} from '../../const';
 import {OffersProcess} from '../../types/state';
-import {fetchOffers, fetchSelectedOffer} from '../api-actions';
+import {fetchOffers, fetchSelectedOffer, fetchFavorites, changeFavorite} from '../api-actions';
 import {CITIES, SortingType} from '../../const';
 import {changeCity, changeSortingType, resetOffers} from '../action';
+import {updateItem} from '../../utils/utils';
 
 const initialState: OffersProcess = {
   selectedCity: CITIES[0],
   selectedSortingType: SortingType.Populap,
   offers: [],
-  isDataLoading: false
+  isDataLoading: false,
+  favorites: [],
+  isFavoritesLoading: false,
 };
 
 export const offersProcess = createSlice({
@@ -24,10 +27,10 @@ export const offersProcess = createSlice({
       .addCase(changeSortingType, (state, action) => {
         state.selectedSortingType = action.payload;
       })
-      .addCase(resetOffers, (state, action) => {
+      .addCase(resetOffers, (state) => {
         state.selectedSortingType = SortingType.Populap;
       })
-      .addCase(fetchOffers.pending, (state, action) => {
+      .addCase(fetchOffers.pending, (state) => {
         state.isDataLoading = true;
       })
       .addCase(fetchOffers.fulfilled, (state, action) => {
@@ -40,6 +43,20 @@ export const offersProcess = createSlice({
       .addCase(fetchSelectedOffer.fulfilled, (state, action) => {
         state.offers.push(action.payload);
         state.isDataLoading = false;
+      })
+      .addCase(fetchFavorites.pending, (state) => {
+        state.isFavoritesLoading = true;
+      })
+      .addCase(fetchFavorites.fulfilled, (state, action) => {
+        state.favorites = action.payload;
+        state.isFavoritesLoading = false;
+      })
+      .addCase(changeFavorite.pending, (state) => {
+        state.isFavoritesLoading = true;
+      })
+      .addCase(changeFavorite.fulfilled, (state, action) => {
+        state.isFavoritesLoading = false;
+        state.offers = updateItem(state.offers, action.payload);
       });
   }
 });

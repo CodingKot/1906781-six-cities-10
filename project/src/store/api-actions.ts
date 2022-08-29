@@ -9,6 +9,7 @@ import {UserData} from '../types/user-data';
 import { dropToken, saveToken } from '../services/token';
 import {NewComment} from '../types/new-comment';
 import {Reviews} from '../types/review';
+import { FavoriteStatus } from '../types/favorite-status';
 
 
 export const fetchOffers = createAsyncThunk<Offers, undefined, {
@@ -103,7 +104,7 @@ export const fetchSelectedOffer = createAsyncThunk<Offer, number, {
   state: State,
   extra: AxiosInstance
 }>(
-  'offer/fetchSelectedOffer',
+  'offers/fetchSelectedOffer',
   async (id, {dispatch, extra: api}) => {
     try {
       const {data} = await api.get(`${APIRoute.Offers}/${id}`);
@@ -120,9 +121,33 @@ export const addComment = createAsyncThunk<Reviews, NewComment, {
   state: State,
   extra: AxiosInstance
 }>(
-  'addComment',
+  'property/addComment',
   async({id, comment, rating}, {dispatch, extra: api}) => {
-    const {data} = await api.post<Reviews>(`${APIRoute.Comments}/${id}`, {comment, rating});
+    const {data} = await (api.post<Reviews>(`${APIRoute.Comments}/${id}`, {comment, rating}));
+    return data;
+  }
+);
+
+export const fetchFavorites = createAsyncThunk<Offers, undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'offers/fetchFavorites',
+  async(_arg, {dispatch, extra: api}) => {
+    const {data} = await api.get(`${APIRoute.Favorites}`);
+    return data;
+  }
+);
+
+export const changeFavorite = createAsyncThunk<Offer, FavoriteStatus, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'offers/changeFavorite',
+  async({id, status}, {dispatch, extra: api}) => {
+    const {data} = await api.post<Offer>(`${APIRoute.Favorites}/${id}/${status}`);
     return data;
   }
 );

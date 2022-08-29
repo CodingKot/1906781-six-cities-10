@@ -1,14 +1,16 @@
 import { AppRoute } from '../../const';
+
 import {Link} from 'react-router-dom';
-import {getUserData, getFavoriteOffers} from '../../store/selectors';
+import {getUserData, getFavorites} from '../../store/selectors';
 import {logout} from '../../store/api-actions';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useAppSelector, useAppDispatch} from '../../hooks';
 
 
 function HeaderHavAuth(): JSX.Element {
   const dispatch = useAppDispatch();
+  const favorites = useAppSelector(getFavorites);
   const userData = useAppSelector(getUserData);
-  const favorites = useAppSelector(getFavoriteOffers);
+
   return (
     <ul className="header__nav-list">
       <li className="header__nav-item user">

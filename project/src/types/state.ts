@@ -15,15 +15,16 @@ export type OffersProcess = {
   selectedSortingType: SortingType,
   offers: Offers,
   isDataLoading: boolean,
+  favorites: Offers,
+  isFavoritesLoading: boolean,
 }
 
 export type PropertyProcess = {
   isPropertyLoading: boolean;
   reviews: Reviews;
   nearbyOffers: Offers;
-  isCommentLoading: boolean;
-  sentCommentsNumber: number;
 }
+
 
 export type State = ReturnType<typeof store.getState>;
 
