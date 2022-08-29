@@ -20,6 +20,7 @@ export const offersProcess = createSlice({
   initialState,
   reducers: {},
   extraReducers (builder) {
+
     builder
       .addCase(changeCity, (state, action) => {
         state.selectedCity = action.payload;
