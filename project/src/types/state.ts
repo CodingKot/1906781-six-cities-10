@@ -16,7 +16,6 @@ export type OffersProcess = {
   offers: Offers,
   isDataLoading: boolean,
   favorites: Offers,
-  isFavoritesLoading: boolean,
 }
 
 export type PropertyProcess = {

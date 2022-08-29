@@ -5,6 +5,7 @@ import {fetchOffers, fetchSelectedOffer, fetchFavorites, changeFavorite} from '.
 import {CITIES, SortingType} from '../../const';
 import {changeCity, changeSortingType, resetOffers} from '../action';
 import {updateItem} from '../../utils/utils';
+import {toast} from 'react-toastify';
 
 const initialState: OffersProcess = {
   selectedCity: CITIES[0],
@@ -12,7 +13,6 @@ const initialState: OffersProcess = {
   offers: [],
   isDataLoading: false,
   favorites: [],
-  isFavoritesLoading: false,
 };
 
 export const offersProcess = createSlice({
@@ -37,6 +37,12 @@ export const offersProcess = createSlice({
         state.offers = action.payload;
         state.isDataLoading = false;
       })
+      .addCase(fetchOffers.rejected, (state) => {
+        state.isDataLoading = false;
+        toast.warn('Sorry, failed to load content. This page is not awailable now', {
+          position: toast.POSITION.TOP_CENTER
+        });
+      })
       .addCase(fetchSelectedOffer.pending, (state) => {
         state.isDataLoading = true;
       })
@@ -44,18 +50,10 @@ export const offersProcess = createSlice({
         state.offers.push(action.payload);
         state.isDataLoading = false;
       })
-      .addCase(fetchFavorites.pending, (state) => {
-        state.isFavoritesLoading = true;
-      })
       .addCase(fetchFavorites.fulfilled, (state, action) => {
         state.favorites = action.payload;
-        state.isFavoritesLoading = false;
-      })
-      .addCase(changeFavorite.pending, (state) => {
-        state.isFavoritesLoading = true;
       })
       .addCase(changeFavorite.fulfilled, (state, action) => {
-        state.isFavoritesLoading = false;
         state.offers = updateItem(state.offers, action.payload);
       });
   }

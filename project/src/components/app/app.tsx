@@ -28,7 +28,6 @@ function App({cities}: AppScreenProps): JSX.Element {
     );
   }
 
-
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>
@@ -39,18 +38,14 @@ function App({cities}: AppScreenProps): JSX.Element {
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute route={AppRoute.Login}>
+            <PrivateRoute>
               <FavoritesPage />
             </PrivateRoute>
           }
         />
         <Route
           path={AppRoute.Login}
-          element={
-            <PrivateRoute route={AppRoute.Main}>
-              <LoginPage/>
-            </PrivateRoute>
-          }
+          element={<LoginPage/>}
         />
         <Route
           path={AppRoute.Room}

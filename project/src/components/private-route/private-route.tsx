@@ -5,23 +5,15 @@ import {getIsUserAuthorized} from '../../store/selectors';
 
 type PrivateRouteProps = {
   children: JSX.Element;
-  route: AppRoute;
 }
 
 function PrivateRoute(props: PrivateRouteProps): JSX.Element {
-  const {children, route} = props;
+  const {children} = props;
   const isUserAuthorized = useAppSelector(getIsUserAuthorized);
-  if(route === AppRoute.Main) {
-    return (
-      isUserAuthorized
-        ? <Navigate to={route}/>
-        : children
-    );
-  }
   return (
     isUserAuthorized
       ? children
-      : <Navigate to={route}/>
+      : <Navigate to={AppRoute.Login}/>
   );
 }
 

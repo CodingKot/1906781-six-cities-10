@@ -1,15 +1,20 @@
 import { AppRoute } from '../../const';
-
+import {MouseEvent} from 'react';
 import {Link} from 'react-router-dom';
-import {getUserData, getFavorites} from '../../store/selectors';
-import {logout} from '../../store/api-actions';
+import {getUserData, getFavoritesNumber} from '../../store/selectors';
+import {logout, fetchOffers} from '../../store/api-actions';
 import {useAppSelector, useAppDispatch} from '../../hooks';
-
 
 function HeaderHavAuth(): JSX.Element {
   const dispatch = useAppDispatch();
-  const favorites = useAppSelector(getFavorites);
+  const favoritesNumber = useAppSelector(getFavoritesNumber);
   const userData = useAppSelector(getUserData);
+
+  const handleSignOut = async (evt: MouseEvent<HTMLAnchorElement>) => {
+    evt.preventDefault();
+    await dispatch(logout());
+    dispatch(fetchOffers());
+  };
 
   return (
     <ul className="header__nav-list">
@@ -21,16 +26,13 @@ function HeaderHavAuth(): JSX.Element {
           >
           </div>
           <span className="header__user-name user__name">{userData?.email}</span>
-          <span className="header__favorite-count">{favorites.length}</span>
+          <span className="header__favorite-count">{favoritesNumber}</span>
         </Link>
       </li>
       <li className="header__nav-item">
         <Link className="header__nav-link"
           to="/"
-          onClick={(evt) => {
-            evt.preventDefault();
-            dispatch(logout());
-          }}
+          onClick={handleSignOut}
         >
           <span className="header__signout">Sign out</span>
         </Link>

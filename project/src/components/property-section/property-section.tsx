@@ -4,14 +4,10 @@ import CommentsForm from '../../components/comments-form/comments-form';
 import Map from '../../components/map/map';
 import {getRatingPercent} from '../../utils/utils';
 import ReviewsList from '../../components/reviews-list/reviews-list';
-import {useAppSelector, useAppDispatch} from '../../hooks/index';
-import {getIsUserAuthorized, getIsFavoritesLoading} from '../../store/selectors';
+import {useAppSelector} from '../../hooks/index';
+import {getIsUserAuthorized} from '../../store/selectors';
 import {PICTURES_MAX_NUMBER} from '../../const';
-import {MouseEvent} from 'react';
-import {AppRoute} from '../../const';
-import {changeFavorite, fetchFavorites} from '../../store/api-actions';
-import {redirectToRoute} from '../../store/action';
-import classnames from 'classnames';
+import FavoritesButton from '../../components/favorites-button/favorites-button';
 
 type PropertySectionProps = {
   offer: Offer;
@@ -22,21 +18,7 @@ type PropertySectionProps = {
 function PropertySection({offer, reviews, offers}: PropertySectionProps): JSX.Element {
   const {id, title, isPremium, isFavorite, type, rating, price, goods, host, images, bedrooms, maxAdults, description, city} = offer;
   const isUserAuthorized = useAppSelector(getIsUserAuthorized);
-  const dispatch = useAppDispatch();
-  const isFavoritesLoading = useAppSelector(getIsFavoritesLoading);
-  const updateFavorites = async(offerId: number, favoriteStatus: boolean) => {
-    const status = favoriteStatus ? 0 : 1;
-    await dispatch(changeFavorite({id: offerId, status}));
-    dispatch(fetchFavorites());
-  };
-  const handleFavoriteClick = (evt: MouseEvent<HTMLButtonElement>) => {
-    evt.preventDefault();
-    if(!isUserAuthorized) {
-      dispatch(redirectToRoute(AppRoute.Login));
-    } else {
-      updateFavorites(id, isFavorite);
-    }
-  };
+
   return (
     <section className="property">
       <div className="property__gallery-container container">
@@ -51,19 +33,14 @@ function PropertySection({offer, reviews, offers}: PropertySectionProps): JSX.El
       <div className="property__container container">
         <div className="property__wrapper">
           {isPremium && (
-            <div className="place-card__mark">
+            <div className="property__mark">
               <span>Premium</span>
             </div>)}
           <div className="property__name-wrapper">
             <h1 className="property__name">
               {title}
             </h1>
-            <button className={classnames('property__bookmark-button', 'button', {'property__bookmark-button--active' : isFavorite})} type="button" onClick={handleFavoriteClick} disabled={isFavoritesLoading}>
-              <svg className="place-card__bookmark-icon" width="31" height="33">
-                <use xlinkHref="#icon-bookmark"></use>
-              </svg>
-              <span className="visually-hidden">To bookmarks</span>
-            </button>
+            <FavoritesButton id={id} isFavorite={isFavorite} className='property__bookmark-button' classNameActive='property__bookmark-button--active' width={31} height={33}/>
           </div>
           <div className="property__rating rating">
 
