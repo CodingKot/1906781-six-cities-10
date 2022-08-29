@@ -91,7 +91,6 @@ export const fetchNearbyOffers = createAsyncThunk<Offers, number, {
   async (id, {dispatch, extra: api}) => {
     try {
       const {data} = await api.get(`${APIRoute.Offers}/${id}/nearby`);
-      dispatch(fetchFavorites);
       return data;
     }
     catch {
@@ -124,7 +123,7 @@ export const addComment = createAsyncThunk<Reviews, NewComment, {
 }>(
   'property/addComment',
   async({id, comment, rating}, {dispatch, extra: api}) => {
-    const {data} = await api.post<Reviews>(`${APIRoute.Comments}/${id}`, {comment, rating});
+    const {data} = await (api.post<Reviews>(`${APIRoute.Comments}/${id}`, {comment, rating}));
     return data;
   }
 );

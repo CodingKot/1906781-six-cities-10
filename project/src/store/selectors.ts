@@ -71,10 +71,6 @@ export const getSortedReviews = (state: State) => {
 
 export const getNearbyOffers = (state: State) => state[NameSpace.Property].nearbyOffers;
 
-export const getIsCommentLoading = (state: State) => state[NameSpace.Property].isCommentLoading;
-
-export const getNewCommentsNumber = (state: State) => state[NameSpace.Property].sentCommentsNumber;
-
 export const getFavorites = (state: State) => state[NameSpace.Offers].favorites;
 
 export const getIsFavoritesLoading = (state: State) => state[NameSpace.Offers].isFavoritesLoading;

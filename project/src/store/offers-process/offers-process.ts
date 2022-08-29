@@ -12,7 +12,6 @@ const initialState: OffersProcess = {
   offers: [],
   isDataLoading: false,
   favorites: [],
-  processingOffer: undefined,
   isFavoritesLoading: false,
 };
 
@@ -57,12 +56,7 @@ export const offersProcess = createSlice({
       })
       .addCase(changeFavorite.fulfilled, (state, action) => {
         state.isFavoritesLoading = false;
-        state.processingOffer = action.payload;
-        if(state.processingOffer?.isFavorite) {
-          state.offers = updateItem(state.offers, state.processingOffer);
-        } else {
-          state.offers = updateItem(state.offers, state.processingOffer);
-        }
+        state.offers = updateItem(state.offers, action.payload);
       });
   }
 });

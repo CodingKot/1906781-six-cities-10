@@ -1,4 +1,5 @@
 import { AppRoute } from '../../const';
+
 import {Link} from 'react-router-dom';
 import {getUserData, getFavorites} from '../../store/selectors';
 import {logout} from '../../store/api-actions';
