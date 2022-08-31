@@ -32,6 +32,10 @@ function MainSection(props: MainSectionProps): JSX.Element {
     setSelectedOffer(offer);
   };
 
+  const handleOfferLeave = () => {
+    setSelectedOffer(undefined);
+  };
+
   const handleCityClick = (city: City) => {
     dispatch(changeCity(city));
     setSelectedOffer(undefined);
@@ -65,6 +69,7 @@ function MainSection(props: MainSectionProps): JSX.Element {
                 <OffersList className="cities__places-list places__list tabs__content"
                   offers={sortedCityOffers}
                   onOfferHover={handleOfferHover}
+                  onOfferLeave={handleOfferLeave}
                   classNameForCard="cities__card"
                   classNameWrapper="cities__image-wrapper"
                   imgHeight="200"

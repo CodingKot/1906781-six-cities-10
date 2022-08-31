@@ -33,62 +33,62 @@ export enum NameSpace {
   Offers = 'OFFERS',
 }
 
-export const enum CityName {
-  Paris = 'Paris',
-  Cologne = 'Cologne',
-  Brussels = 'Brussels',
-  Amsterdam = 'Amsterdam',
-  Hamburg = 'Hamburg',
-  Dusseldorf = 'Dusseldorf',
-
+export enum ResponseStatus {
+  Initial = 'Initial',
+  Fulfilled = 'FULFILLED',
+  Rejected = 'REJECTED',
 }
 
+export enum FavoriteOfferStatus {
+  FavoriteDelete = 0,
+  FavoriteAdd = 1,
+}
 export const CITIES = [
   {
     name: 'Paris',
     location: {
-      latitude: 48.8534,
-      longitude: 2.3488,
+      latitude: 48.85661,
+      longitude: 2.351499,
       zoom: 13,
     }
   },
   {
     name: 'Cologne',
     location: {
-      latitude: 50.93753,
-      longitude: 6.96028,
+      latitude: 50.938361,
+      longitude: 6.959974,
       zoom: 13,
     }
   },
   {
     name: 'Brussels',
     location: {
-      latitude: 50.8504,
-      longitude: 4.34878,
+      latitude: 50.846557,
+      longitude: 4.351697,
       zoom: 13,
     }
   },
   {
     name: 'Amsterdam',
     location: {
-      latitude: 52.370216,
-      longitude: 4.895168,
+      latitude: 52.37454,
+      longitude: 4.897976,
       zoom: 13,
     }
   },
   {
     name: 'Hamburg',
     location: {
-      latitude: 53.5753,
-      longitude: 10.0153,
+      latitude: 53.550341,
+      longitude: 10.000654,
       zoom: 13,
     }
   },
   {
     name: 'Dusseldorf',
     location: {
-      latitude: 	51.2217,
-      longitude: 6.77616,
+      latitude: 	51.225402,
+      longitude: 6.776314,
       zoom: 13,
     }
   },
@@ -126,6 +126,6 @@ export const SORTING_ITEMS = [
 
 export const PICTURES_MAX_NUMBER = 6;
 export const REVIEWS_MAX_NUMBER = 10;
-export const DEFAULT_CITY_NAME = 'Paris';
-
+export const MIN_REVIEW_LENGTH = 50;
+export const MAX_REVIEW_LENGTH = 300;
 

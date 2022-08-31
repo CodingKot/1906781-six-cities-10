@@ -10,7 +10,8 @@ function useMap(
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
   useEffect(()=> {
-    if (mapRef.current !== null && !isRenderedRef.current) {
+    let isMounted = true;
+    if (mapRef.current !== null && !isRenderedRef.current && isMounted) {
       const instance = new Map(mapRef.current, {
         center: {
           lat: location.latitude,
@@ -31,14 +32,23 @@ function useMap(
       setMap(instance);
       isRenderedRef.current = true;
     }
+    return () => {
+      isMounted = false;
+    };
   },
   [mapRef, location, map]
   );
   useEffect(()=> {
-    map?.setView({
-      lat: location.latitude,
-      lng: location.longitude,
-    }, location.zoom);
+    let isMounted = true;
+    if(isMounted) {
+      map?.setView({
+        lat: location.latitude,
+        lng: location.longitude,
+      }, location.zoom);
+    }
+    return () => {
+      isMounted = false;
+    };
   },
   [location, map]);
   return map;

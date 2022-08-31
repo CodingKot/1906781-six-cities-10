@@ -15,6 +15,7 @@ export type OffersProcess = {
   selectedSortingType: SortingType,
   offers: Offers,
   isDataLoading: boolean,
+  loadingStatus: string,
   favorites: Offers,
 }
 

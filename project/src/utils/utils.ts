@@ -30,3 +30,5 @@ export const updateItem = (items: Offers, newItem: Offer) => {
   return items;
 };
 
+export const firstToUpperCase = (string: string) => string.charAt(0).toUpperCase() + string.slice(1);
+

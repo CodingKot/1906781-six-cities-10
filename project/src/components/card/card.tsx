@@ -1,12 +1,13 @@
 import {Offer} from '../../types/offer';
 import {generatePath, Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
-import {getRatingPercent} from '../../utils/utils';
+import {getRatingPercent, firstToUpperCase} from '../../utils/utils';
 import FavoritesButton from '../../components/favorites-button/favorites-button';
 
 type CardProps = {
   offer: Offer;
   onOfferHover?: (offer: Offer) => void;
+  onOfferLeave?: () => void;
   className: string;
   classNameWrapper: string;
   classNameInfo?: string;
@@ -15,12 +16,12 @@ type CardProps = {
 }
 
 function Card(props: CardProps): JSX.Element {
-  const {offer, onOfferHover, className, classNameWrapper, classNameInfo, imgWidth, imgHeight} = props;
+  const {offer, onOfferHover, onOfferLeave, className, classNameWrapper, classNameInfo, imgWidth, imgHeight} = props;
   const{id, title, isPremium, type, rating, price, previewImage, isFavorite} = offer;
   const offerLink = generatePath(AppRoute.Room, {id: `${id}`});
 
   return (
-    <article className={`${className} place-card`} onMouseEnter={() => onOfferHover?.(offer)} id = {`${id}`}>
+    <article className={`${className} place-card`} onMouseEnter={() => onOfferHover?.(offer)} onMouseLeave={()=>onOfferLeave?.()} id = {`${id}`}>
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
@@ -53,7 +54,7 @@ function Card(props: CardProps): JSX.Element {
         <h2 className="place-card__name">
           <Link to={offerLink}>{title}</Link>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{firstToUpperCase(type)}</p>
       </div>
     </article>
   );

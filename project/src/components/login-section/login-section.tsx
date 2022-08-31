@@ -1,30 +1,33 @@
 import {Link, generatePath} from 'react-router-dom';
 import {useRef, FormEvent} from 'react';
 import {useAppDispatch} from '../../hooks';
-import {AuthData} from '../../types/auth-data';
 import {login} from '../../store/api-actions';
 import {getRandomCity} from '../../utils/utils';
 import {CITIES, AppRoute} from '../../const';
 import {changeCity} from '../../store/action';
+import {toast} from 'react-toastify';
 
 function LoginSection(): JSX.Element {
 
   const dispatch = useAppDispatch();
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-
-  const onSubmit = (authData: AuthData) => {
-    dispatch(login(authData));
-  };
+  const validatePasswordForSymbols = (password: string): boolean => /\d/.test(password) && /[a-zA-Z]/.test(password);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if(loginRef.current !== null && passwordRef.current !== null) {
-      onSubmit({
-        login: loginRef.current.value,
-        password: passwordRef.current.value,
-      });
+      validatePasswordForSymbols(passwordRef.current.value)
+        ?
+        dispatch(login({
+          login: loginRef.current.value,
+          password: passwordRef.current.value,
+        }))
+        :
+        toast.warn('Password shold contain at least one letter and one number', {
+          position: toast.POSITION.TOP_CENTER
+        });
     }
   };
 
@@ -42,7 +45,7 @@ function LoginSection(): JSX.Element {
             </div>
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">Password</label>
-              <input className="login__input form__input" type="password" name="password" placeholder="Password" ref={passwordRef} required pattern='\d{1,}\w{1,}'/>
+              <input className="login__input form__input" type="password" name="password" placeholder="Password" ref={passwordRef} required/>
             </div>
             <button className="login__submit form__submit button" type="submit">Sign in</button>
           </form>

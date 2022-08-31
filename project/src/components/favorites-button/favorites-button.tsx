@@ -1,5 +1,5 @@
 import {MouseEvent, useState} from 'react';
-import {AppRoute} from '../../const';
+import {AppRoute, FavoriteOfferStatus} from '../../const';
 import {changeFavorite, fetchFavorites} from '../../store/api-actions';
 import {redirectToRoute} from '../../store/action';
 import {getIsUserAuthorized} from '../../store/selectors';
@@ -21,7 +21,7 @@ function FavoritesButton(props: FavoritesButtonProps): JSX.Element {
   const dispatch = useAppDispatch();
   const updateFavorites = async(offerId: number, favoriteStatus: boolean) => {
     setButtonDisabled(true);
-    const status = favoriteStatus ? 0 : 1;
+    const status = favoriteStatus ? FavoriteOfferStatus.FavoriteDelete : FavoriteOfferStatus.FavoriteAdd;
     await dispatch(changeFavorite({id: offerId, status}));
     await dispatch(fetchFavorites());
     setButtonDisabled(false);

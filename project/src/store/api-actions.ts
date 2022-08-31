@@ -18,10 +18,11 @@ export const fetchOffers = createAsyncThunk<Offers, undefined, {
   extra: AxiosInstance
 }>(
   'offers/fetchOffers',
-  async(_arg, {dispatch, extra: api}) => {
-    const {data} = await api.get<Offers>(APIRoute.Offers);
+  async(_, {dispatch, extra: api}) => {
+
+    const {data} = await (api.get<Offers>(APIRoute.Offers));
     return data;
-  }
+  },
 );
 
 export const checkAuth = createAsyncThunk<UserData, undefined, {
@@ -30,7 +31,7 @@ export const checkAuth = createAsyncThunk<UserData, undefined, {
   extra: AxiosInstance
 }>(
   'user/checkAuth',
-  async(_arg, {dispatch, extra: api}) => {
+  async(_, {dispatch, extra: api}) => {
     const {data} = await api.get(APIRoute.Login);
     return data;
   },
@@ -56,10 +57,10 @@ export const logout = createAsyncThunk<void, undefined, {
   extra: AxiosInstance
 }>(
   'user/logout',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-  }
+  },
 );
 
 
@@ -77,9 +78,7 @@ export const fetchReviews = createAsyncThunk<Reviews, number, {
     catch {
       dispatch(redirectToRoute(AppRoute.NotFound));
     }
-
-  }
-
+  },
 );
 
 export const fetchNearbyOffers = createAsyncThunk<Offers, number, {
@@ -96,7 +95,7 @@ export const fetchNearbyOffers = createAsyncThunk<Offers, number, {
     catch {
       dispatch(redirectToRoute(AppRoute.NotFound));
     }
-  }
+  },
 );
 
 export const fetchSelectedOffer = createAsyncThunk<Offer, number, {
@@ -113,7 +112,7 @@ export const fetchSelectedOffer = createAsyncThunk<Offer, number, {
     catch {
       dispatch(redirectToRoute(AppRoute.NotFound));
     }
-  }
+  },
 );
 
 export const addComment = createAsyncThunk<Reviews, NewComment, {
@@ -125,7 +124,7 @@ export const addComment = createAsyncThunk<Reviews, NewComment, {
   async({id, comment, rating}, {dispatch, extra: api}) => {
     const {data} = await (api.post<Reviews>(`${APIRoute.Comments}/${id}`, {comment, rating}));
     return data;
-  }
+  },
 );
 
 export const fetchFavorites = createAsyncThunk<Offers, undefined, {
@@ -134,10 +133,10 @@ export const fetchFavorites = createAsyncThunk<Offers, undefined, {
   extra: AxiosInstance
 }>(
   'offers/fetchFavorites',
-  async(_arg, {dispatch, extra: api}) => {
+  async(_, {dispatch, extra: api}) => {
     const {data} = await api.get(`${APIRoute.Favorites}`);
     return data;
-  }
+  },
 );
 
 export const changeFavorite = createAsyncThunk<Offer, FavoriteStatus, {
@@ -149,5 +148,5 @@ export const changeFavorite = createAsyncThunk<Offer, FavoriteStatus, {
   async({id, status}, {dispatch, extra: api}) => {
     const {data} = await api.post<Offer>(`${APIRoute.Favorites}/${id}/${status}`);
     return data;
-  }
+  },
 );

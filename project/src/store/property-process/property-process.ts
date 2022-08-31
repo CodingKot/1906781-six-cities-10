@@ -1,7 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace} from '../../const';
 import { PropertyProcess } from '../../types/state';
-import { fetchNearbyOffers, fetchReviews, addComment} from '../api-actions';
+import { fetchNearbyOffers, fetchReviews, addComment, changeFavorite} from '../api-actions';
+import {updateItem} from '../../utils/utils';
 
 
 const initialState: PropertyProcess = {
@@ -34,8 +35,10 @@ export const propertyProcess = createSlice({
         state.reviews = action.payload;
 
       })
-      .addCase(addComment.rejected, (state) => {
-        throw new Error();
+      .addCase(changeFavorite.fulfilled, (state, action) => {
+        if(state.nearbyOffers.find((offer) => offer.id === action.payload.id)) {
+          state.nearbyOffers = updateItem(state.nearbyOffers, action.payload);
+        }
       });
   }
 });

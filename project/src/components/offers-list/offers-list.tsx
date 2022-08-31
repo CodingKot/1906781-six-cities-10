@@ -5,6 +5,7 @@ import Card from '../card/card';
 type OffersListProps = {
   offers?: Offers;
   onOfferHover?: (offer: Offer) => void;
+  onOfferLeave?: () => void;
   className: string;
   classNameForCard: string;
   classNameWrapper: string;
@@ -13,7 +14,7 @@ type OffersListProps = {
   imgHeight: string;
 }
 
-function OffersList({offers, onOfferHover, className, classNameForCard, classNameWrapper, classNameInfo, imgWidth, imgHeight}: OffersListProps): JSX.Element {
+function OffersList({offers, onOfferHover, onOfferLeave, className, classNameForCard, classNameWrapper, classNameInfo, imgWidth, imgHeight}: OffersListProps): JSX.Element {
 
   return (
     <div className={className}>
@@ -25,6 +26,7 @@ function OffersList({offers, onOfferHover, className, classNameForCard, classNam
             classNameWrapper={classNameWrapper}
             classNameInfo={classNameInfo}
             onOfferHover={onOfferHover}
+            onOfferLeave={onOfferLeave}
             imgWidth={imgWidth}
             imgHeight={imgHeight}
           />)

@@ -2,7 +2,7 @@ import {Offer, Offers} from '../../types/offer';
 import {Reviews} from '../../types/review';
 import CommentsForm from '../../components/comments-form/comments-form';
 import Map from '../../components/map/map';
-import {getRatingPercent} from '../../utils/utils';
+import {getRatingPercent, firstToUpperCase} from '../../utils/utils';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import {useAppSelector} from '../../hooks/index';
 import {getIsUserAuthorized} from '../../store/selectors';
@@ -56,7 +56,7 @@ function PropertySection({offer, reviews, offers}: PropertySectionProps): JSX.El
           </div>
           <ul className="property__features">
             <li className="property__feature property__feature--entire">
-              {type}
+              {firstToUpperCase(type)}
             </li>
             <li className="property__feature property__feature--bedrooms">
               {bedrooms} Bedrooms

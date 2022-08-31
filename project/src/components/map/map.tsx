@@ -11,16 +11,16 @@ type MapProps = {
   className: string;
 };
 
-const defaultCustomIcon = new Icon({
+const DEFAULT_CUSTOM_ICON = new Icon({
   iconUrl: 'img/pin.svg',
-  iconSize: [40, 60],
-  iconAnchor: [20, 40]
+  iconSize: [27, 39],
+  iconAnchor: [13.5, 39]
 });
 
-const currentCustomIcon = new Icon({
+const CURRENT_CUSTOM_ICON = new Icon({
   iconUrl: 'img/pin-active.svg',
-  iconSize: [40, 60],
-  iconAnchor: [20, 40]
+  iconSize: [27, 39],
+  iconAnchor: [13.5, 39]
 });
 
 function Map(props: MapProps): JSX.Element {
@@ -31,7 +31,8 @@ function Map(props: MapProps): JSX.Element {
   const map = useMap(mapRef, location);
 
   useEffect(() => {
-    if(map) {
+    let isMounted = true;
+    if(map && isMounted) {
       const markersLayer = layerGroup();
       markersLayer.addTo(map);
       offers?.forEach((offer) => {
@@ -42,17 +43,15 @@ function Map(props: MapProps): JSX.Element {
         marker
           .setIcon(
             selectedOffer !== undefined && offer.id === selectedOffer.id
-              ? currentCustomIcon
-              : defaultCustomIcon
+              ? CURRENT_CUSTOM_ICON
+              : DEFAULT_CUSTOM_ICON
           )
           .addTo(markersLayer);
       });
-
-
       return () => {
         markersLayer.remove();
+        isMounted = false;
       };
-
     }
   },
   [location, map, offers, selectedOffer]

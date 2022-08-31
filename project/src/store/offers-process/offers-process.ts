@@ -1,17 +1,18 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {NameSpace} from '../../const';
+import {NameSpace, ResponseStatus} from '../../const';
 import {OffersProcess} from '../../types/state';
 import {fetchOffers, fetchSelectedOffer, fetchFavorites, changeFavorite} from '../api-actions';
 import {CITIES, SortingType} from '../../const';
 import {changeCity, changeSortingType, resetOffers} from '../action';
 import {updateItem} from '../../utils/utils';
-import {toast} from 'react-toastify';
+
 
 const initialState: OffersProcess = {
   selectedCity: CITIES[0],
   selectedSortingType: SortingType.Populap,
   offers: [],
   isDataLoading: false,
+  loadingStatus: ResponseStatus.Initial,
   favorites: [],
 };
 
@@ -37,12 +38,11 @@ export const offersProcess = createSlice({
       .addCase(fetchOffers.fulfilled, (state, action) => {
         state.offers = action.payload;
         state.isDataLoading = false;
+        state.loadingStatus = ResponseStatus.Fulfilled;
       })
       .addCase(fetchOffers.rejected, (state) => {
         state.isDataLoading = false;
-        toast.warn('Sorry, failed to load content. This page is not awailable now', {
-          position: toast.POSITION.TOP_CENTER
-        });
+        state.loadingStatus = ResponseStatus.Rejected;
       })
       .addCase(fetchSelectedOffer.pending, (state) => {
         state.isDataLoading = true;

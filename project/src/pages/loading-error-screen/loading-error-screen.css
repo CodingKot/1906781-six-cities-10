@@ -1,0 +1,6 @@
+.loading-error-screen
+ {
+  display: flex;
+  justify-content: center;
+  color: red;
+ }

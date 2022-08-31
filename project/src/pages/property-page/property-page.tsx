@@ -17,13 +17,12 @@ function PropertyPage(): JSX.Element {
   const offer = useAppSelector(getSelectedOffer(Number(params.id)));
 
   useEffect(() => {
-    if (!offer) {
+    if (!offer?.id) {
       dispatch(fetchSelectedOffer(Number(params.id)));
     }
     dispatch(fetchReviews(Number(params.id)));
     dispatch(fetchNearbyOffers(Number(params.id)));
-
-  }, [params.id, offer, dispatch]);
+  }, [params.id, offer?.id, dispatch]);
 
   const reviews = useAppSelector(getSortedReviews);
   const nearbyOffers = useAppSelector(getNearbyOffers);

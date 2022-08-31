@@ -1,8 +1,9 @@
 import React, {useState, ChangeEvent, FormEvent} from 'react';
-import {RATING_MARKS} from '../../const';
+import {RATING_MARKS, MIN_REVIEW_LENGTH, MAX_REVIEW_LENGTH} from '../../const';
 import {addComment} from '../../store/api-actions';
 import {useAppDispatch} from '../../hooks/index';
 import {toast} from 'react-toastify';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 type FormProps = {
   id: number;
@@ -18,11 +19,10 @@ function CommentsForm({id}: FormProps): JSX.Element {
     setRating(undefined);
   };
 
-
   const [isSubmitButtonDisabled, setSubmitButtonDisabled] = useState(true);
 
   const checkDisabled = (text: string, stars?: number) => {
-    const disabled = text.length < 50 || text.length > 300 || !stars;
+    const disabled = text.length < MIN_REVIEW_LENGTH || text.length > MAX_REVIEW_LENGTH || !stars;
     setSubmitButtonDisabled(disabled);
   };
 
@@ -38,19 +38,23 @@ function CommentsForm({id}: FormProps): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const handleFormSubmit = async (evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     setFormDisabled(true);
-    try {
-      await dispatch(addComment({id, comment, rating}));
-      resetForm();
-    }
-    catch {
-      toast.warn('Sorry, failed to load new comment', {
-        position: toast.POSITION.TOP_CENTER
+    setSubmitButtonDisabled(true);
+    dispatch(addComment({id, comment, rating}))
+      .then(unwrapResult)
+      .then(() => {
+        resetForm();
+        setFormDisabled(false);
+      })
+      .catch ((err) => {
+        toast.warn('Sorry, failed to load new comment', {
+          position: toast.POSITION.TOP_CENTER
+        });
+        setFormDisabled(false);
+        setSubmitButtonDisabled(false);
       });
-    }
-    setFormDisabled(false);
   };
 
   return (
@@ -74,7 +78,7 @@ function CommentsForm({id}: FormProps): JSX.Element {
         <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={isSubmitButtonDisabled || isFormDisabled}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={isSubmitButtonDisabled}>Submit</button>
       </div>
     </form>
   );

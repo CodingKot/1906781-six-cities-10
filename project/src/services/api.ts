@@ -4,9 +4,9 @@ import {getToken} from './token';
 import {toast} from 'react-toastify';
 
 
-const STATUSES = new Set([StatusCodes.BAD_REQUEST, StatusCodes.SERVICE_UNAVAILABLE]);
+const ERROR_STATUS = StatusCodes.SERVICE_UNAVAILABLE;
 
-const shouldDisplayError = (response: AxiosResponse) => STATUSES.has(response.status);
+const shouldDisplayError = (response: AxiosResponse) => response.status === ERROR_STATUS;
 
 const BACKEND_URL = 'https://10.react.pages.academy/six-cities';
 const REQUEST_TIMEOUT = 5000;
@@ -23,7 +23,6 @@ export const createAPI = (): AxiosInstance => {
       if(token) {
         config.headers['x-token'] = token;
       }
-
       return config;
     }
   );
