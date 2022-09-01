@@ -12,9 +12,11 @@ import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 function PropertyPage(): JSX.Element {
   const dispatch = useAppDispatch();
-  const isPropertyLoading = useAppSelector(getIsPropertyLoading);
   const params = useParams();
+  const isPropertyLoading = useAppSelector(getIsPropertyLoading);
   const offer = useAppSelector(getSelectedOffer(Number(params.id)));
+  const reviews = useAppSelector(getSortedReviews);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
 
   useEffect(() => {
     if (!offer?.id) {
@@ -24,8 +26,6 @@ function PropertyPage(): JSX.Element {
     dispatch(fetchNearbyOffers(Number(params.id)));
   }, [params.id, offer?.id, dispatch]);
 
-  const reviews = useAppSelector(getSortedReviews);
-  const nearbyOffers = useAppSelector(getNearbyOffers);
   const isProperties = offer && reviews;
 
   if(isPropertyLoading || !isProperties) {

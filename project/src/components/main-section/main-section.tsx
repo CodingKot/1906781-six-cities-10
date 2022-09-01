@@ -16,17 +16,16 @@ type MainSectionProps = {
 
 function MainSection(props: MainSectionProps): JSX.Element {
   const {cities} = props;
-
-  const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
-    undefined
-  );
+  const dispatch = useAppDispatch();
 
   const selectedCity = useAppSelector(getSelectedCity);
   const cityOffers = useAppSelector(filterOffers);
   const selectedSortingType = useAppSelector(getSelectedSortingType);
   const sortedCityOffers = useAppSelector(sortOffers);
 
-  const dispatch = useAppDispatch();
+  const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
+    undefined
+  );
 
   const handleOfferHover = (offer: Offer) => {
     setSelectedOffer(offer);

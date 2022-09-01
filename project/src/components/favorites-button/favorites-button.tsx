@@ -16,9 +16,10 @@ type FavoritesButtonProps = {
 
 function FavoritesButton(props: FavoritesButtonProps): JSX.Element {
   const {id, isFavorite, className, classNameActive, width, height} = props;
-  const [isButtonDisabled, setButtonDisabled] = useState<boolean>(false);
-  const isUserAuthorized = useAppSelector(getIsUserAuthorized);
   const dispatch = useAppDispatch();
+  const isUserAuthorized = useAppSelector(getIsUserAuthorized);
+  const [isButtonDisabled, setButtonDisabled] = useState<boolean>(false);
+
   const updateFavorites = async(offerId: number, favoriteStatus: boolean) => {
     setButtonDisabled(true);
     const status = favoriteStatus ? FavoriteOfferStatus.FavoriteDelete : FavoriteOfferStatus.FavoriteAdd;

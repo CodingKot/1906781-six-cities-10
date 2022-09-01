@@ -10,16 +10,16 @@ type FormProps = {
 }
 
 function CommentsForm({id}: FormProps): JSX.Element {
+  const dispatch = useAppDispatch();
   const [comment, setComment] = useState<string>('');
   const [rating, setRating] = useState<number | undefined>(undefined);
   const [isFormDisabled, setFormDisabled] = useState<boolean>(false);
+  const [isSubmitButtonDisabled, setSubmitButtonDisabled] = useState(true);
 
   const resetForm = () => {
     setComment('');
     setRating(undefined);
   };
-
-  const [isSubmitButtonDisabled, setSubmitButtonDisabled] = useState(true);
 
   const checkDisabled = (text: string, stars?: number) => {
     const disabled = text.length < MIN_REVIEW_LENGTH || text.length > MAX_REVIEW_LENGTH || !stars;
@@ -35,8 +35,6 @@ function CommentsForm({id}: FormProps): JSX.Element {
     setComment(target.value);
     checkDisabled(target.value, rating);
   };
-
-  const dispatch = useAppDispatch();
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();

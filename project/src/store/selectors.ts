@@ -20,7 +20,7 @@ export const sortOffers = createSelector(
     if(offers) {
       const sortedOffers = [...offers];
       switch (type) {
-        case SortingType.Populap:
+        case SortingType.Popular:
           return offers;
         case SortingType.PriceToHigh:
           return sortedOffers.sort(comparePriceToHigh);
@@ -39,18 +39,21 @@ export const getIsPropertyLoading = (state: State) => state[NameSpace.Property].
 
 export const getAuthorizationStatus = (state: State) => state[NameSpace.User].authorizationStatus;
 
-export const getGroupedOffers = (state: State) => (
-  Object.entries((getOffers(state)).filter((offer) => offer.isFavorite)
-    .reduce((group: {[key: string]: Offer[]}, offer) => {
-      const {city} = offer;
-      group[city.name] = group[city.name] ?? [];
-      group[city.name].push(offer);
-      return group;
-    },
-    {})
-  ));
-
-export const getOfferById = (id: number) => (state: State) => (getOffers(state)).find((item: Offer) => item.id === id);
+export const getGroupedOffers = createSelector(
+  getOffers,
+  (offers) => {
+    const groupedOffers = Object.entries(offers.filter((offer) => offer.isFavorite)
+      .reduce((group: {[key: string]: Offer[]}, offer) => {
+        const {city} = offer;
+        group[city.name] = group[city.name] ?? [];
+        group[city.name].push(offer);
+        return group;
+      },
+      {})
+    );
+    return groupedOffers;
+  }
+);
 
 export const getUserData = (state: State) => state[NameSpace.User].userData;
 
@@ -62,12 +65,16 @@ export const getSelectedOffer = (id: number) => (state: State) => state[NameSpac
 
 export const getReviews = (state: State) => state[NameSpace.Property].reviews;
 
-export const getSortedReviews = (state: State) => {
-  const reviews = getReviews(state);
-  const sortedReviews = [...reviews];
-  sortedReviews.sort(compareDates);
-  return sortedReviews.slice(0, REVIEWS_MAX_NUMBER);
-};
+export const getSortedReviews = createSelector (
+  getReviews,
+  (reviews) => {
+    const sortedReviews = [...reviews];
+    sortedReviews.sort(compareDates);
+    return sortedReviews.slice(0, REVIEWS_MAX_NUMBER);
+  }
+
+);
+
 
 export const getNearbyOffers = (state: State) => state[NameSpace.Property].nearbyOffers;
 

@@ -9,7 +9,7 @@ import {updateItem} from '../../utils/utils';
 
 const initialState: OffersProcess = {
   selectedCity: CITIES[0],
-  selectedSortingType: SortingType.Populap,
+  selectedSortingType: SortingType.Popular,
   offers: [],
   isDataLoading: false,
   loadingStatus: ResponseStatus.Initial,
@@ -30,7 +30,7 @@ export const offersProcess = createSlice({
         state.selectedSortingType = action.payload;
       })
       .addCase(resetOffers, (state) => {
-        state.selectedSortingType = SortingType.Populap;
+        state.selectedSortingType = SortingType.Popular;
       })
       .addCase(fetchOffers.pending, (state) => {
         state.isDataLoading = true;

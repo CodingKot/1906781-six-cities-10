@@ -1,7 +1,7 @@
 import {Offer} from '../../types/offer';
 import {generatePath, Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
-import {getRatingPercent, firstToUpperCase} from '../../utils/utils';
+import {getRatingPercent, capitalizeFirstLetter} from '../../utils/utils';
 import FavoritesButton from '../../components/favorites-button/favorites-button';
 
 type CardProps = {
@@ -54,7 +54,7 @@ function Card(props: CardProps): JSX.Element {
         <h2 className="place-card__name">
           <Link to={offerLink}>{title}</Link>
         </h2>
-        <p className="place-card__type">{firstToUpperCase(type)}</p>
+        <p className="place-card__type">{capitalizeFirstLetter(type)}</p>
       </div>
     </article>
   );

@@ -21,7 +21,7 @@ export enum AuthorizationStatus {
 }
 
 export enum SortingType {
-  Populap = 'Popular',
+  Popular = 'Popular',
   PriceToHigh = 'Price: low to high',
   PriceToLow = 'Price: high to low',
   TopRated = 'Top rated first',
@@ -118,7 +118,7 @@ export const RATING_MARKS = [
 ];
 
 export const SORTING_ITEMS = [
-  {value: SortingType.Populap, label: 'Popular' },
+  {value: SortingType.Popular, label: 'Popular' },
   {value: SortingType.PriceToHigh, label: 'Price: low to high'},
   {value: SortingType.PriceToLow, label: 'Price: high to low'},
   {value: SortingType.TopRated, label: 'Top rated first'},
