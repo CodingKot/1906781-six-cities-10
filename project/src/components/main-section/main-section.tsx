@@ -4,7 +4,7 @@ import Map from '../../components/map/map';
 import {useState} from 'react';
 import CitiesList from '../../components/cities-list/cities-list';
 import {useAppDispatch, useAppSelector} from '../../hooks/index';
-import {changeCity, changeSortingType, resetOffers} from '../../store/action';
+import {changeCity, changeSortingType, resetOffers} from '../../store/offers-process/offers-process';
 import {sortOffers, filterOffers, getSelectedSortingType, getSelectedCity} from '../../store/selectors';
 import SortingForm from '../../components/sorting-form/sorting-form';
 import {SortingType} from '../../const';

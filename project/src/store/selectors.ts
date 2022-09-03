@@ -80,7 +80,8 @@ export const getNearbyOffers = (state: State) => state[NameSpace.Property].nearb
 
 export const getFavorites = (state: State) => state[NameSpace.Offers].favorites;
 
-export const getFavoritesNumber = (state: State) => state[NameSpace.Offers].offers.filter((offer) => offer.isFavorite).length;
+export const getFavoritesNumber = (state: State) => state[NameSpace.Offers].offers.filter((offer) => offer.isFavorite)?.length;
+
 export const getDataStatus = (state: State) => state[NameSpace.Offers].loadingStatus;
 
 

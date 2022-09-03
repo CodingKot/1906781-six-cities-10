@@ -3,7 +3,7 @@ import {NameSpace, ResponseStatus} from '../../const';
 import {OffersProcess} from '../../types/state';
 import {fetchOffers, fetchSelectedOffer, fetchFavorites, changeFavorite} from '../api-actions';
 import {CITIES, SortingType} from '../../const';
-import {changeCity, changeSortingType, resetOffers} from '../action';
+
 import {updateItem} from '../../utils/utils';
 
 
@@ -19,19 +19,20 @@ const initialState: OffersProcess = {
 export const offersProcess = createSlice({
   name: NameSpace.Offers,
   initialState,
-  reducers: {},
+  reducers: {
+    changeCity: (state, action) => {
+      state.selectedCity = action.payload;
+    },
+    changeSortingType: (state, action) => {
+      state.selectedSortingType = action.payload;
+    },
+    resetOffers: (state) => {
+      state.selectedSortingType = SortingType.Popular;
+    }
+  },
   extraReducers (builder) {
 
     builder
-      .addCase(changeCity, (state, action) => {
-        state.selectedCity = action.payload;
-      })
-      .addCase(changeSortingType, (state, action) => {
-        state.selectedSortingType = action.payload;
-      })
-      .addCase(resetOffers, (state) => {
-        state.selectedSortingType = SortingType.Popular;
-      })
       .addCase(fetchOffers.pending, (state) => {
         state.isDataLoading = true;
       })
@@ -48,7 +49,7 @@ export const offersProcess = createSlice({
         state.isDataLoading = true;
       })
       .addCase(fetchSelectedOffer.fulfilled, (state, action) => {
-        state.offers.push(action.payload);
+        state.offers = [...state.offers, action.payload];
         state.isDataLoading = false;
       })
       .addCase(fetchFavorites.fulfilled, (state, action) => {
@@ -59,3 +60,5 @@ export const offersProcess = createSlice({
       });
   }
 });
+
+export const {changeCity, changeSortingType, resetOffers} = offersProcess.actions;

@@ -4,7 +4,7 @@ import {useAppDispatch} from '../../hooks';
 import {login} from '../../store/api-actions';
 import {getRandomCity} from '../../utils/utils';
 import {CITIES, AppRoute} from '../../const';
-import {changeCity} from '../../store/action';
+import {changeCity} from '../../store/offers-process/offers-process';
 import {toast} from 'react-toastify';
 
 function LoginSection(): JSX.Element {
